@@ -1,0 +1,169 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloze Worksheet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='worksheets.css') }}">
+</head>
+<body>
+
+<a class="print-link" href="#" onclick="window.print();return false;">Print Worksheet</a>
+
+{% if worksheet_type == 1 %}
+    <h2>{{ title }}</h2>
+{% else %}
+<h2>{{ title }} (Student A)</h2>
+{% endif %}
+
+<p>Choose from the following options:
+    <b>
+    {% for word in target_words %}
+        {% if loop.index0 < target_words|length - 1 %}
+            {{ word }}, 
+        {% else %}
+            {{ word }}
+        {% endif %}
+    {% endfor %}
+    </b>
+</p>
+
+{% if worksheet_type == 1 %}
+    <ol>
+    {% for question in questions %}
+        <li>
+            {{ question.clozed_sentence }}
+            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                        onclick="confirmQuestionRemove();">
+                Remove Question
+            </a>
+            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
+                Move Up
+            </a>
+            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
+                Move Down
+            </a>
+        </li>
+    {% endfor %}
+    </ol>
+
+
+    <h3>Answers:</h3>
+    <ol>
+    {% for question in questions %}
+        <li>
+            {% for word_list in question.missing_words.split('\n') %}
+                {% if loop.index0 < question.missing_words.split('\n')|length - 1 %}
+                    {{ word_list }}, 
+                {% else %}
+                    {{ word_list }}
+                {% endif %}
+            {% endfor %}
+        </li>
+    {% endfor %}
+
+{% else %}
+
+    <p>
+        <i>Complete the <span style="color:blue;">odd sentences (1, 3, 5, etc.)</span>.<br>
+        Check your partner's answers for the even sentences (2, 4, 6, etc.)</i>
+    </p>
+
+    <ol>
+        {% for question in questions %}
+            {% if loop.index0 is odd %}
+                <li style="color:blue;">
+                    {{ question.clozed_sentence }}
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                                onclick="confirmQuestionRemove();">
+                        Remove Question
+                    </a>
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
+                        Move Up
+                    </a>
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
+                        Move Down
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    {{ question.clozed_sentence }}
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                                onclick="confirmQuestionRemove();">
+                        Remove Question
+                    </a>
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
+                        Move Up
+                    </a>
+                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
+                        Move Down
+                    </a>
+                    <br>
+                    <b>Answer:
+                    {% for word_list in question.missing_words.split('\n') %}
+                        {% if loop.index0 < question.missing_words.split('\n')|length - 1 %}
+                            {{ word_list }}, 
+                        {% else %}
+                            {{ word_list }}
+                        {% endif %}
+                    {% endfor %}
+                    </b>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+    
+    <h2>{{ title }} (Student B)</h2>
+
+    <p>Choose from the following options:
+        <b>
+        {% for word in target_words %}
+            {% if loop.index0 < target_words|length - 1 %}
+                {{ word }}, 
+            {% else %}
+                {{ word }}
+            {% endif %}
+        {% endfor %}
+        </b>
+    </p>
+
+    <p>
+        <i>Complete the <span style="color:blue;">even sentences (2, 4, 6, etc.).</span><br>
+        Check your partner's answers for the odd sentences (1, 3, 5, etc.).</i>
+    </p>
+
+    <ol>
+        {% for question in questions %}
+            {% if loop.index0 is even %}
+                <li style="color:blue;">{{ question.clozed_sentence }}</li>
+            {% else %}
+                <li>
+                    {{ question.clozed_sentence }}<br>
+                    <b>Answer:
+                    {% for word_list in question.missing_words.split('\n') %}
+                        {% if loop.index0 < question.missing_words.split('\n')|length - 1 %}
+                            {{ word_list }}, 
+                        {% else %}
+                            {{ word_list }}
+                        {% endif %}
+                    {% endfor %}
+                    </b>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+
+{% endif %}
+
+
+
+</body>
+</html>

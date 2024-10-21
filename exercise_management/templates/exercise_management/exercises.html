@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Create an Exercise{% endblock %}
+
+{% block content %}
+
+
+<div id="error-correction">
+    <div class="tabs">
+        <p class="active-tab">Create an Error-Correction Exercise:</p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('error-correction', 'gap-fill');">Gap-Fill</a>
+        </p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('error-correction', 'verb-form');">Verb-Form</a>
+        </p>
+    </div>
+
+    <table class="active-content">
+        <form id="errorExerciseForm" method="POST" action="{{ url_for('exercises') }}">
+            {{ error_exercise_form.hidden_tag() }}
+            <tr>
+                <td style="width:50%;">
+                    {{ error_exercise_form.exercise(id="exercise") }}
+                </td>
+                <td id="exercise-image">
+                </td>
+            </tr>
+            <tr style="padding-top: 10px;">
+                <td>
+                    <p><b>Create a New List:</b></p>
+                    <p>{{ error_exercise_form.list_name.label }}</p>
+                    <p>{{ error_exercise_form.list_name() }}</p>
+                    <p>{{ error_exercise_form.topics.label }}</p>
+                    <input type="checkbox" id="select-all" onclick="toggleAllTopics(this)">Select All
+                    <p>{{ error_exercise_form.topics() }}</p>
+                </td>
+                <td style="vertical-align:top;">
+                    <p><b>Study an Existing List:</b></p>
+                    <p>{{ error_exercise_form.existing_list.label }}</p>
+                    <p>{{ error_exercise_form.existing_list() }}</p>
+                    <p class="lets-go">{{ error_exercise_form.submit() }}</p>
+                    <div class="loading-message" id="loadingMessage1">
+                        Compiling your list, please wait...
+                    </div>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+<div id="gap-fill" style="display:none;">
+    <div class="tabs">
+        <p class="active-tab">Create a Gap-Fill Exercise</p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('gap-fill', 'error-correction');">Error-Correction</a>
+        </p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('gap-fill', 'verb-form');">Verb-Form</a>
+        </p>
+    </div>
+
+    <table class="active-content">
+        <form id="clozeExerciseForm" method="POST" action="{{ url_for('create_cloze_exercise') }}">
+            {{ cloze_exercise_form.hidden_tag() }}
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr style="margin-top:20px;">
+                <td style="vertical-align:top;">
+                    <p><b>Create a New List:</b></p>
+                    <p>{{ cloze_exercise_form.list_name.label }}</p>
+                    <p>{{ cloze_exercise_form.list_name() }}</p>
+                    <p>{{ cloze_exercise_form.target_words.label }}</p>
+                    <p style="margin-right:10px;">{{ cloze_exercise_form.target_words(rows=12, cols=20) }}</p>
+                </td>
+                <td id="cloze-instructions">
+                    <p><i>Enter a list of at least two words<br>
+                       or phrases that are often confused.</i></p>
+                    <p><i>For example:</i></p>
+                    <div class="text-area-example">
+                        <p class="example-word">in<br>at<br>on</p>
+                    </div>
+                    <p><i>For prefixes or suffixes, add "..."</i></p>
+                    <p><i>For example:</i></p>
+                    <div class="text-area-example">
+                        <p class="example-word">
+                            some...<br>any...<br><br>
+                            ...ness<br>...ment
+                        </p>
+                    </div>
+                </td>
+                <td style="vertical-align:top;">
+                    <p><b>Study an Existing List:</b></p>
+                    <p>{{ cloze_exercise_form.existing_list.label }}</p>
+                    <p>{{ cloze_exercise_form.existing_list() }}</p>
+                    <p class="lets-go">{{ cloze_exercise_form.submit() }}</p>
+                    <div class="loading-message" id="loadingMessage2">
+                        Compiling your list, please wait...
+                    </div>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+<div id="verb-form" style="display:none;">
+    <div class="tabs">
+        <p class="active-tab">Create a Verb-Form Exercise</p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('verb-form', 'error-correction');">Error-Correction</a>
+        </p>
+        <p class="inactive-tab">
+            <a href="#" onclick="showExerciseForm('verb-form', 'gap-fill');">Gap-Fill</a>
+        </p>
+    </div>
+
+    <table class="active-content">
+        <form id="verbFormExerciseForm" method="POST" action="{{ url_for('create_verb_form_exercise') }}">
+            {{ verb_form_exercise_form.hidden_tag() }}
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr style="margin-top:20px;">
+                <td style="vertical-align:top;">
+                    <p>{{ verb_form_exercise_form.verb_forms.label }}</p>
+                    <p>{{ verb_form_exercise_form.verb_forms() }}</p>
+                    <p>{{ verb_form_exercise_form.num_sentences.label }}</p>
+                    <p>{{ verb_form_exercise_form.num_sentences() }}</p>
+                    <p class="lets-go">{{ verb_form_exercise_form.submit() }}</p>
+                    <div class="loading-message" id="loadingMessage3">
+                        Compiling your list, please wait...
+                    </div>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+
+{% endblock %}

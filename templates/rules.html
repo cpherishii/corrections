@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Rules{% endblock %}
+
+{% block content %}
+
+
+
+<h2>Rules By Topic</h2>
+
+<form method="POST" action="{{ url_for('rules') }}" id="selectTopicForm">
+    {{ select_topic_form.hidden_tag() }}
+    {{ select_topic_form.selected_topic.label }}
+    {{ select_topic_form.selected_topic(onchange="submitForm()") }}
+</form>
+
+{% if topic.topic_name %}
+    <h3>{{ topic.topic_name }}</h3>
+    {% else %}
+    <h3>Recent</h3>
+{% endif %}
+
+{% for rule in rules %}
+<div class="entry-container">
+    <table>
+        <tr>
+            <th>Rule #{{ rule.id }}</th>
+            <td>{{ rule.rule_name }}</td>
+            <td>
+                <button onclick="toggleVisibility(event, '{{ rule.id }}')">Show/Hide</button>
+            </td>
+            <td>
+                <a class="manage-link" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank">Edit</a>
+            </td>
+            <td>
+                <a class="manage-link" href="{{ url_for('delete_rule', rule_id=rule.id) }}" 
+                        onclick="return confirmRuleDelete();">Delete</a>
+            </td>
+        </tr>
+        <tr class="{{ rule.id }}" style="display:none;">
+            <th>Explanation:</th>
+            <td>
+                <div style="white-space: pre-wrap;">{{ rule.rule_text }}</div>
+            </td>
+        </tr>
+        <tr class="{{ rule.id }}" style="display:none;">
+            <th>Topic(s):</th>
+            <td>
+                {% for rule_topic in rule.rule_topics %}
+                    {{ rule_topic.topic.topic_name }}
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+
+
+{% endblock %}

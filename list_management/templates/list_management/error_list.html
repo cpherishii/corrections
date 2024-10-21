@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}{{ list.list_name }}{% endblock %}
+
+{% block content %}
+
+
+<h2>{{ list.list_name }}</h2>
+
+<button onclick="showForm('edit-form');">Rename</button>
+<button onclick="showForm('worksheet-form');">Create a Worksheet</button>
+
+<table id="edit-form" style="display: none;">
+    <form method="POST" action="{{ url_for('edit_list', list_id=list.id) }}" onsubmit="return confirmListRename();">
+        <tr>
+        {{ edit_list_form.hidden_tag() }}
+            <td>{{ edit_list_form.list_name.label }}</td>
+            <td>{{ edit_list_form.list_name(value=list.list_name, size=75) }}</td>
+        </tr>
+        <tr>
+            <td>{{ edit_list_form.submit() }}</td>
+        </tr>
+    </form>  
+</table>
+
+<table id="worksheet-form" style="display: none;">
+    <form method="POST" action="{{ url_for('error_list', list_id=list.id) }}" target="_blank">
+        <tr>
+        {{ worksheet_form.hidden_tag() }}
+            <th>{{ worksheet_form.title.label }}</th>
+            <td>{{ worksheet_form.title(size=75) }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.worksheet_type.label }}</th>
+            <td>{{ worksheet_form.worksheet_type() }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.exercise.label }}</th>
+            <td>{{ worksheet_form.exercise() }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.number_of_questions.label }}</th>
+            <td>{{ worksheet_form.number_of_questions(value=20) }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.randomize.label }}</th>
+            <td>{{ worksheet_form.randomize() }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{ worksheet_form.submit() }}</td>
+        </tr>
+    </form>  
+</table>
+
+<p>Number of sentences: {{ list.list_items | length }}</p>
+
+<div class="sticky-div">
+    <form class="manage-form" method="POST" action="{{ url_for('remove_list_items', list_id = list.id) }}" id="deleteItemsForm">
+        <input type="hidden" id="selected-items" name="selected_item_ids">
+        <button type="button" onclick="submitItemForm('error');">Remove Selected Items</button>
+    </form>
+</div>
+
+{% for list_item in list.list_items %}
+<div class="entry-container">
+<table class="error-list-item" style="width=100%;">
+    <tr>
+        <th class="small" rowspan="4">{{ list_item.error_id }}  </th>
+        <th class="small">Error:</th>
+        <td class="large">
+            <span class="incorrect-sentence">{{ list_item.error.incorrect_sentence }}</span>
+        </td>
+        <td rowspan="3">
+            <a class="manage-link" href="{{ url_for('edit', error_id=list_item.error_id) }}" target="_blank">Edit</a>
+        </td>
+        <td class="small" rowspan="3">
+            <a class="manage-link" href="{{ url_for('remove_list_item', list_id=list.id, list_item_id=list_item.id) }}" onclick="return confirmItemRemoval();">Remove</a>
+        </td>
+        <td class="small">
+            <input type="checkbox" name="error_checkbox" value="{{ list_item.id }}" class="error-checkbox">
+        </td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in list_item.error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if list_item.error.error_topics %}
+                {% for error_topic in list_item.error.error_topics %}
+                    {{ error_topic.topic.topic_name }}<br> 
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if list_item.error.error_rules %}
+                {% for error_rule in list_item.error.error_rules %}
+                    {{ error_rule.rule.rule_name }}<br>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+        <td colspan="2">
+            <a class="manage-link" href="{{ url_for('add_rules_and_topics', error_id=list_item.error_id) }}" target="_blank">Add Rules and Topics</a>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <th>Entered:</th>
+        <td>{{ list_item.error.entered }}</td>
+</table>
+</div>
+{% endfor %}  
+
+
+{% endblock %}

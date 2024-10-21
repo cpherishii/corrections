@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}{{ list.list_name }}{% endblock %}
+
+{% block content %}
+
+
+
+<h2>{{ list.list_name }}</h2>
+<button onclick="showForm('edit-form');">Rename</button>
+<button onclick="showForm('worksheet-form');">Create a Worksheet</button>
+
+
+<table id="edit-form" style="display: none;">
+    <form method="POST" action="{{ url_for('edit_cloze_list', cloze_list_id=list.id) }}" onsubmit="return confirmListRename();">
+        <tr>
+        {{ edit_list_form.hidden_tag() }}
+            <td>{{ edit_list_form.list_name.label }}</td>
+            <td>{{ edit_list_form.list_name(value=list.list_name, size=75) }}</td>
+        </tr>
+        <tr>
+            <td>{{ edit_list_form.submit() }}</td>
+        </tr>
+    </form>  
+</table>
+
+<table id="worksheet-form" style="display: none;">
+    <form method="POST" action="{{ url_for('cloze_list', cloze_list_id=list.id) }}" target="_blank">
+        <tr>
+        {{ worksheet_form.hidden_tag() }}
+            <th>{{ worksheet_form.title.label }}</th>
+            <td>{{ worksheet_form.title(size=75) }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.worksheet_type.label }}</th>
+            <td>{{ worksheet_form.worksheet_type() }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.number_of_questions.label }}</th>
+            <td>{{ worksheet_form.number_of_questions(value=20) }}</td>
+        </tr>
+        <tr>
+            <th>{{ worksheet_form.randomize.label }}</th>
+            <td>{{ worksheet_form.randomize() }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{ worksheet_form.submit() }}</td>
+        </tr>
+    </form>  
+</table>
+
+<p><b>Target Words: </b>
+    {% for word in list.target_words.split('\n') %}
+        {% if loop.index0 < list.target_words.split('\n')|length-1 %}
+            {{ word }} / 
+        {% else %}
+            {{ word }}
+        {% endif %}
+    {% endfor %}
+</p>
+
+<p>Number of sentences: {{ list.cloze_sentences | length }}</p>
+
+<div class="sticky-div">
+    <form class="manage-form" method="POST" action="{{ url_for('delete_cloze_sentences', cloze_list_id = list.id) }}" id="deleteItemsForm">
+        <input type="hidden" id="selected-items" name="selected_item_ids">
+        <button type="button" onclick="return submitItemForm('cloze');">Delete Selected Sentences</button>
+    </form>
+</div>
+
+{% for cloze_sentence in list.cloze_sentences %}
+<div class="entry-container">
+    <table class="cloze-list-item">
+        <tr>
+            <th class="medium">Cloze Sentence:</th>
+            <td class="large">
+                {{ cloze_sentence.clozed_sentence }}
+            </td>
+            <td class="medium" rowspan="2">
+                <a class="manage-link" href="{{ url_for('edit_cloze_sentence', cloze_list_id=list.id, cloze_sentence_id=cloze_sentence.id) }}" target="_blank">
+                    Edit
+                </a>
+                <a class="manage-link" href="{{ url_for('delete_cloze_sentence', cloze_list_id=list.id, cloze_sentence_id=cloze_sentence.id) }}" onclick="return confirmSentenceDelete();">
+                    Delete
+                </a>  
+            </td>
+            <td class="small" rowspan="3">
+                <input type="checkbox" name="sentence_checkbox" value="{{ cloze_sentence.id }}" class="sentence-checkbox">
+            </td>
+        </tr>
+        <tr>
+            <th>Original Sentences:</th>
+            <td>
+                {% for sentence in cloze_sentence.original_sentences.split('\n') %}
+                    {{ sentence }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Missing Words:</th>
+            <td>
+                {% for word_list in cloze_sentence.missing_words.split('\n') %}
+                    {% if loop.index0 < cloze_sentence.missing_words.split('\n')|length-1 %}
+                        {% for word in word_list.split('/') %}
+                            {% if loop.index0 < word_list.split('/')|length-1 %}
+                                {{ word }} /
+                            {% else %}
+                                {{ word }}, 
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for word in word_list.split('/') %}
+                            {% if loop.index0 < word_list.split('/')|length-1 %}
+                                {{ word }} /
+                            {% else %}
+                                {{ word }} 
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </td>
+    </table>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}

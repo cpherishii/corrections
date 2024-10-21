@@ -1,0 +1,166 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose the Correct Sentence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='worksheets.css') }}">
+</head>
+<body>
+
+
+<a class="print-link" href="#" onclick="window.print();return false;">Print Worksheet</a>
+
+{% if worksheet_type == 1 %}
+    <h2>{{ title }}</h2>
+    <p>
+        <i>Look at the sentence pairs and decide which one is correct.</i><br>
+    </p>
+{% else %}
+<h2>{{ title }} (Student A)</h2>
+{% endif %}
+
+<p>Choose the Correct Sentence</p>
+
+{% if worksheet_type == 1 %}
+    <ol>
+    {% for question in questions %}
+        <li>
+            A: {{ question['sentence_a'] }}
+            <a href="{{ url_for('manage_question', exercise='error_2',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                        onclick="confirmQuestionRemove();", class="manage-link">
+                Remove Question
+            </a>
+            <a href="{{ url_for('manage_question', exercise='error_2',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                        class="manage-link">
+                Move Up
+            </a>
+            <a href="{{ url_for('manage_question', exercise='error_2',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                        class="manage-link">
+                Move Down
+            </a><br>
+            B: {{ question['sentence_b'] }}
+        </li>
+    {% endfor %}
+    </ol>
+
+
+    <h3>Answers:</h3>
+    <ol>
+    {% for question in questions %}
+        <li>
+            {{ question['answer'] }} 
+            {% if question['answer'] == 'A' %}
+                ({{ question['sentence_a']}})
+            {% else %}
+                ({{ question['sentence_b']}})
+            {% endif %}
+        </li>
+    {% endfor %}
+
+{% else %}
+
+    <p>
+        <i>Look at the sentence pairs in the <span style="color:blue;">odd numbers (1, 3, 5, etc.)</span> and decide which one is correct.<br>
+        Check your partner's answers for the even numbers (2, 4, 6, etc.)</i>
+    </p>
+
+    <ol>
+        {% for question in questions %}
+            {% if loop.index0 is even %}
+                <li style="color:blue;">
+                    A: {{ question['sentence_a'] }}
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                                onclick="confirmQuestionRemove();", class="manage-link">
+                        Remove Question
+                    </a>
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                                class="manage-link">
+                        Move Up
+                    </a>
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                                class="manage-link">
+                        Move Down
+                    </a><br>
+                    B: {{ question['sentence_b'] }}
+                </li>
+            {% else %}
+                <li>
+                    {% if question['answer'] == 'A' %}
+                        <span style="color:green;">A: {{ question['sentence_a'] }}</span>
+                        <b>Answer: A</b>
+                    {% else %}
+                        <span style="color:red;">A: {{ question['sentence_a'] }}</span>
+                    {% endif %}
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
+                                onclick="confirmQuestionRemove();", class="manage-link">
+                        Remove Question
+                    </a>
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                                class="manage-link">
+                        Move Up
+                    </a>
+                    <a href="{{ url_for('manage_question', exercise='error_2',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                                class="manage-link">
+                        Move Down
+                    </a><br>
+                    {% if question['answer'] == 'B' %}
+                        <span style="color:green;">B: {{ question['sentence_b'] }}</span>
+                        <b>Answer: B</b>
+                    {% else %}
+                        <span style="color:red;">B: {{ question['sentence_b'] }}</span>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+    
+    <h2>{{ title }} (Student B)</h2>
+
+    <p>Choose the Correct Sentence</p>
+    <p>
+        <i>Look at the sentence pairs in the <span style="color:blue;">even numbers (2, 4, 6, etc.)</span> and decide which one is correct.<br>
+        Check your partner's answers for the odd numbers (1, 3, 5, etc.)</i>
+    </p>
+
+    <ol>
+        {% for question in questions %}
+            {% if loop.index0 is odd %}
+            <li style="color:blue;">
+                A: {{ question['sentence_a'] }}<br>
+                B: {{ question['sentence_b'] }}
+            </li>
+        {% else %}
+            <li>
+                {% if question['answer'] == 'A' %}
+                    <span style="color:green;">A: {{ question['sentence_a'] }}</span>
+                    <b>Answer: A</b>
+                {% else %}
+                    <span style="color:red;">A: {{ question['sentence_a'] }}</span>
+                {% endif %}
+                <br>
+                {% if question['answer'] == 'B' %}
+                    <span style="color:green;">B: {{ question['sentence_b'] }}</span>
+                    <b>Answer: B</b>
+                {% else %}
+                    <span style="color:red;">B: {{ question['sentence_b'] }}</span>
+                {% endif %}
+            </li>
+        {% endif %}
+        {% endfor %}
+    </ol>
+
+{% endif %}
+
+
+
+</body>
+</html>

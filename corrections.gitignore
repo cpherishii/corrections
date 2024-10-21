@@ -1,0 +1,23 @@
+# Ignore virtual environment files
+Lib/
+Scripts/
+include/
+bin/
+share/
+__pycache__/
+
+# Ignore Python cache files
+*.py[cod]
+
+# Ignore environment files
+.env
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+
+# Ignore compiled files
+*.pyc
+
+# Ignore Jupyter Notebook files
+*.ipynb

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Parse Sentence{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            background-color: darkgray;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<table class="parse-display-table">
+    <tr>
+        <th class="id-column" rowspan="10">{{ error.id }}</th>
+        <th class="label-column">Sentence:</th>
+        <td class="parsed-sentence" colspan="{{ parsed_sentence | length }}">
+            {{ correct_sentence }}
+        </td>
+    </tr>
+    <tr>
+        <th>Word:</th>
+        {% for token in parsed_sentence %}
+            <td class="hover-trigger" onmouseover="showText('{{ token.morph | replace("|", " / ") | replace("=", " = ") }}', 'morph');
+                                                   showText('Dep: {{ token.dep_ }} / Head: {{ token.head }} / Children: {{ token.children | list }}', 'dependency');">
+                {{ token }}
+            </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Morph:</th>
+        <th class="hover-display" id="morph" colspan="{{ parsed_sentence | length }}"></th>
+    <tr>
+    <tr>
+        <th>Dependency:</th>
+        <th class="hover-display" id="dependency" colspan="{{ parsed_sentence | length }}"></th>
+    </tr>
+    <tr>
+        <th>Lemma:</th>
+        {% for token in parsed_sentence %}
+            <td class="lemma">
+                {{ token.lemma_ }}
+            </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>POS:</th>
+        {% for token in parsed_sentence %}
+            <td class="hover-trigger" onmouseover="showText('{{ pos_explanations[loop.index0] }}', 'pos-explanation')">
+                {{ token.pos_ }}
+            </td>
+        {% endfor %}    
+    </tr>
+    <tr>
+        <th>TAG:</th>
+        {% for token in parsed_sentence %}
+            <td class="hover-trigger" onmouseover="showText('{{ tag_explanations[loop.index0] }}', 'pos-explanation')">
+                {{ token.tag_ }}
+            </td>
+        {% endfor %}
+    </tr> 
+    <tr>
+        <td></td>
+        <th class="hover-display" id="pos-explanation" colspan="{{ parsed_sentence | length }}"></th>
+    </tr>
+        <th>Word Forms:</th>
+        {% for token in parsed_sentence %}
+            <td class="word-forms">
+                {% for form in word_forms[loop.index0] %}
+                    <span class="word-form">{{ form }}</span><br>
+                {% endfor %}
+            </td>
+        {% endfor %}
+    </tr>       
+</table>
+
+<a class="manage-link" href="{{ url_for('parse_sentence', error_id=error.id+1) }}">
+    Next
+</a>
+
+
+{% endblock %}

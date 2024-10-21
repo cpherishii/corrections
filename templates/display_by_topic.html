@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h2>Corrections By Topic</h2>
+
+<form method="POST" action="{{ url_for('display_by_topic') }}" id="selectTopicForm">
+    {{ select_topic_form.hidden_tag() }}
+    {{ select_topic_form.selected_topic.label }}
+    {{ select_topic_form.selected_topic(onchange="submitForm()") }}
+</form>
+
+{% if topic.topic_name %}
+    <h3>{{ topic.topic_name }}</h3>
+    {% else %}
+    <h3>Recent</h3>
+{% endif %}
+
+{% for error in errors %}
+<div class="entry-container">
+    <table>
+        <tr>
+            <th rowspan="4">{{ error.id }} </th>
+            <th>Error:</th>
+            <td style="color: red">{{ error.incorrect_sentence }}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Correction:</th>
+            <td class = "{{ error.id }}" style="color: green; display: none">
+                {% for correction in error.corrections %}
+                    {{ correction.correct_sentence }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                <button onclick="toggleVisibility(event, '{{ error.id }}')">Show/Hide</button>
+            </td>
+        </tr>
+    </table>
+    <table class = "{{ error.id }}" style="display: none">
+        <tr>
+            <th style="visibility:hidden;">
+                {{ error.id }}
+            </th>
+            <th>Topic(s):</th>
+            <td style="color:blue;">
+                {% if error.error_topics %}
+                    {% for error_topic in error.error_topics %}
+                        {{ error_topic.topic.topic_name }}<br> 
+                    {% endfor %}
+                {% else %}
+                    (none)
+                {% endif %}
+            </td>
+            <th>Rule(s):</th>
+            <td style="color:purple;">
+                {% if error.error_rules %}
+                    {% for error_rule in error.error_rules %}
+                        {{ error_rule.rule.rule_name }}<br>
+                    {% endfor %}
+                {% else %}
+                    (none)
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('edit', error_id=error.id) }}" target="_blank">Edit</a>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endfor %}
+
+
+{% endblock %}

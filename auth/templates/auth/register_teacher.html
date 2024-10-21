@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Register as a Teacher:</h1>
+
+<p>Already have an account? 
+    <a href="{{ url_for('login_teacher') }}">Log in</a>
+</p>
+
+<form action="{{ url_for('register_teacher') }}" method="POST">
+    {{ registration_form.hidden_tag() }}
+    <p>
+        <b>{{ registration_form.username.label }}</b><br>
+        {{ registration_form.username(size=32) }}<br>
+        <b>{{ registration_form.email.label }}</b><br>
+        {{ registration_form.email() }}<br>
+        {% for error in registration_form.email.errors %}
+        <span style="color:red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        <b>{{ registration_form.password.label }}</b><br>
+        {{ registration_form.password(size=32) }}<br>
+        <b>{{ registration_form.password2.label }}</b><br>
+        {{ registration_form.password2(size=32) }}<br>
+        {% for error in registration_form.password.errors %}
+        <span style="color:red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>{{ registration_form.submit() }}</p>
+</form>
+
+<script>
+
+</script>
+
+{% endblock %}

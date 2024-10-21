@@ -1,0 +1,166 @@
+{% extends "base_teacher.html" %}
+
+{% block title %}Add New Sentence{% endblock %}
+
+{% block content %}
+
+
+<table class="form-table">
+    <tr>
+        <td colspan="2"><h2>Add New Sentence:</h2></td>
+        <td>
+            <form style="display:inline" onsubmit="return false;">
+                <button onclick="showNewTopicForm()">Define New Topic</button>
+            </form>
+        </td>
+        <td>
+            <form style="display:inline" onsubmit="return false;">
+                <button onclick="showNewRuleForm()">Define New Rule</button>
+            </form>
+        </td>
+    </tr>
+    <form id="addForm" method="POST" action="{{ url_for('teacher_dashboard', user_id=user.id) }}">
+            {{ add_form.hidden_tag() }}
+            <tr>
+                <th>{{ add_form.error.label }}</th>
+                <td colspan="3">{{ add_form.error(size=75) }}</td>    
+            </tr>
+            <tr>
+                <th>{{ add_form.correction.label }}</th>
+                <td colspan="3">{{ add_form.correction(rows=3, cols=75) }}</td>
+            </tr>
+            <tr>
+                <th>Add Topics:</th>
+                <td>{{ add_form.topic1() }}</td>
+                <td>{{ add_form.topic2() }}</td>
+                <td>{{ add_form.topic3() }}</td>
+            </tr>
+            <tr>
+                <th>Add Rules:</th>
+                <td>{{ add_form.rule1() }}</td>
+                <td>{{ add_form.rule2() }}</td>
+                <td>{{ add_form.rule3() }}</td>            
+            </tr>
+            <tr id="addNewTopicForm" style="display:none;">
+                <th>{{ add_form.new_topic_name.label }}</th>
+                <td colspan="2">{{ add_form.new_topic_name(size=75) }}</td>
+            </tr>
+            <tr id="addNewRuleForm" style="display:none;">
+                <th>{{ add_form.new_rule_name.label }}</th>
+                <td colspan="3">{{ add_form.new_rule_name(size=75) }}</td>
+            </tr>
+            <tr id="addNewRuleFormText" style="display:none;">
+                <th>{{ add_form.new_rule_text.label }}</th>
+                <td colspan="3">{{ add_form.new_rule_text(rows=3, cols=75, id='rule_text') }}</td>
+            </tr>
+            <tr id="addNewRuleFormTopics" style="display:none;">
+                <th>Add Topics:</th>
+                <td>{{ add_form.rule_topic1() }}</td>
+                <td>{{ add_form.rule_topic2() }}</td>
+                <td>{{ add_form.rule_topic3() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ add_form.submit() }}</td>
+            </tr>
+    </form>
+</table>
+
+
+<div class="sticky-div">
+    <form class="select-topic-form" method="POST" action="{{ url_for('index') }}" id="selectTopicForm">
+        {{ select_topic_form.hidden_tag() }}
+        {{ select_topic_form.selected_topic(onchange="submitForm()") }}
+    </form>
+
+    <form class="manage-form" method="POST" action="{{ url_for('add_list_items') }}" id="manageListForm">
+        {{ list_form.hidden_tag() }}
+        <span>
+            {{ list_form.existing_list() }}
+        </span>
+        <span>
+            <label for="new-list-name">New List:</label>
+            <input type="text" id="new-list-name" name="new_list_name" size="20">
+        </span>
+        <input type="hidden" id="selected-errors" name="selected_errors">
+        <button type="button" onclick="submitListForm();">Add to list</button>
+    </form>
+
+</div>
+
+<div class="select-all">
+    <span style="float:right;">
+        <input type="checkbox" id="select-all" onclick="toggleAll(this)">Select All</input>
+        <input type="checkbox" id="deselect-all" onclick="toggleAll(this)">Deselect All</input>
+    </span>
+</div>
+
+{% for error in errors %}
+<div class="entry-container">
+<table class="error-list-item">
+    <tr>
+        <th class="small" rowspan="4" >{{ error.id }}  </th>
+        <th class="small">Error:</th>
+        <td class="large">
+            <span class="incorrect-sentence">{{ error.incorrect_sentence }}</span>
+        </td>
+        <td class="small" rowspan="3">
+            <a class="manage-link" href="{{ url_for('edit', error_id=error.id) }}" target="_blank">Edit</a>
+        </td>
+        <td class="small" rowspan="3">
+            <a class="manage-link" href="{{ url_for('delete_error', error_id=error.id) }}" onclick="return confirmDelete();">Delete</a>
+        </td>
+        <td class="small" rowspan="4">
+            <input type="checkbox" name="error_checkbox" value="{{ error.id }}" class="error-checkbox">
+        </td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th >Topic(s): </th>
+        <td class="topic-name">
+            {% if error.error_topics %}
+                {% for error_topic in error.error_topics %}
+                    {{ error_topic.topic.topic_name }}<br> 
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error.error_rules %}
+                {% for error_rule in error.error_rules %}
+                    {{ error_rule.rule.rule_name }}<br>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+        <td colspan="2">
+            <a class="manage-link" href="{{ url_for('add_rules_and_topics', error_id=error.id) }}" target="_blank">Add Rules and Topics</a>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <th>Entered:</th>
+        <td>{{ error.entered }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <th>By:</th>
+        <td>{{ user.username }}</td>
+    </tr>
+</table>
+</div>
+{% endfor %}
+
+{% endblock %}

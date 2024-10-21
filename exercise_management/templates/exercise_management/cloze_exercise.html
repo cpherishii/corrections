@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Complete the Sentence{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            background-color: darkgray;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="title-div">
+    <h2 class="exercise-title">Complete the Sentence</h2>
+</div>
+
+<div id="exercise-div">
+    <div class="exercise-text">
+        <p id="clozed-sentence">{{ sentence['clozed_sentence'] }}</p>
+        <p id="original-sentence" class="correct-sentence"></p>
+
+        {% for word in missing_words %}
+            {% if loop.index0 == 0 %}
+                {% if missing_words | length == 1 %}
+                    <p class="missing-word" id="missing-word-{{ loop.index0 }}"></p><br>
+                {% else %}
+                    <p class="missing-word" id="missing-word-{{ loop.index0 }}"></p>
+                {% endif %}
+            {% elif loop.index0 < missing_words | length - 1 %}
+                <p class="missing-word" id="missing-word-{{ loop.index0 }}"></p>
+            {% else %}
+                <p class="missing-word" id="missing-word-{{ loop.index0 }}"></p><br>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div >
+        <table id="target-words">
+            <tr>
+                {% for word in sentence['target_words'] %}
+                <td>
+                    <p>
+                        <a href="#" id="link-{{ loop.index0 + 1 }}" class="word-link" data-word="{{ word }}">{{ word }}</a>
+                    </p>
+                    <p class="word-link-label">{{ loop.index0 + 1 }}</p>
+                </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+
+    <div id="feedback">
+        <p id="feedback-message"></p>
+    </div>
+</div>
+
+
+<div class="info-div">
+    <p class="info">
+        <span class="info-span"><b>List:</b> {{ cloze_list.list_name }}</span>
+        <span class="info-span"><b>Showing:</b> Item {{ index + 1 }} of {{ list_length }}</span>
+        <span class="info-span" id="score"></span>
+        <a class="manage-link" href="#" onclick="resetSession();">Reset my score</a>
+    </p>
+</div>
+
+<form id="next" onsubmit="storeValues();" method="POST" action="{{ url_for('cloze_exercise', cloze_list_id=cloze_list.id, index=index )}}">
+    <input type="hidden" id="result" name="result" value="">
+    <button id="next-button" type="submit" name="action" value="save">Next</button><br>
+    <span style="color:white;">(or press >)</span>
+</form>
+
+
+<div id="manage-button-div">
+    <button class="exercise-manage-button" onclick="showError()">Show Original Error</button>
+    <a class="exercise-manage-button" href="{{ url_for('edit_cloze_sentence', cloze_list_id=cloze_list_id, cloze_sentence_id=sentence['id']) }}" target="_blank">
+        Edit Sentence
+    </a>
+    <form onsubmit="return confirmSentenceDelete();storeValues();" method="POST" action="{{ url_for('cloze_exercise', cloze_list_id=cloze_list_id, index=index )}}" onsubmit="confirmRemove();">
+        <button class="exercise-manage-button" type="submit" name="action" value="delete">Don't show me this sentence again</button>
+    </form>
+</div>
+
+<table class="exercise-display-table" id="error">  
+    <tr>
+        <th>Error:</th>
+        <td class="incorrect-sentence">{{ error.incorrect_sentence }}</td>
+        <td rowspan="4">
+            <a class="exercise-manage-button" href="{{ url_for('edit', error_id=error.id) }}" target="_blank">Edit</a>
+        </td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if error.error_topics %}
+                {% for error_topic in error.error_topics %}
+                    {{ error_topic.topic.topic_name }}<br> 
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error.error_rules %}
+                {% for error_rule in error.error_rules %}
+                    {{ error_rule.rule.rule_name }}<br>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const missingWords = {{ missing_words|tojson }};
+        console.log("Number of missing words: " + missingWords.length);
+        console.log("Missing words list: " + missingWords);
+    
+        let clozedSentence = {{ sentence['clozed_sentence']|tojson }};
+        console.log("Clozed sentence: " + clozedSentence);
+        
+        const originalSentences = {{ sentence['original_sentences']|tojson }};
+        console.log("Original sentences: " + originalSentences);
+
+        initializeClozeExercise(missingWords, clozedSentence, originalSentences);
+    });
+
+</script>
+
+{% endblock %}

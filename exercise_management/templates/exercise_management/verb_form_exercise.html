@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Choose the Correct Verb Form{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            background-color: darkgray;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="title-div">
+    <h2 class="exercise-title">Choose the Correct Verb Form</h2>
+</div>
+
+<div id="exercise-div">
+    <div class="exercise-text">
+        <table id="verb-forms-table">
+            <tr>
+            {% for word_list in sentence_dict['word_list'] %}
+                {% set outer_loop = loop %}
+                {% if word_list | length > 1 %}
+                    <td>
+                        <div class="verb-forms" id="options-{{ outer_loop.index0 }}">
+                        {% for form in word_list[1:] %}
+                            <a href="#" class="verb-form-link" id="verb-form-link-{{ outer_loop.index0 }}-{{ loop.index0 + 1 }}" 
+                                onclick='checkVerbForm(this.id, {{ word_list | tojson }}, {{ outer_loop.index0 }})'>
+                                {{ form }}
+                            </a><br>
+                        {% endfor %}
+                        </div>
+                        <div class="verb-form-answer" id="answer-{{ outer_loop.index0 }}">
+                            <span class="correct-sentence">{{ word_list[0] }}</span>
+                        </div>
+                    </td>
+                {% else %}
+                    <td class="non-verb-form">
+                        {{ word_list[0] }}
+                    </td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+        </table>
+    </div>
+
+    <div id="feedback">
+        <p id="feedback-message"></p>
+    </div>
+</div>
+
+
+<div class="info-div">
+    <p class="info">
+        <span class="info-span"><b>Verb Forms:</b>{{ verb_forms }}</span>
+        <span class="info-span"><b>Showing:</b> Item {{ index + 1 }} of {{ verb_form_list | length }}</span>
+        <span class="info-span" id="score"></span>
+        <a class="manage-link" href="#" onclick="resetSession();">Reset my score</a>
+    </p>
+</div>
+
+<form id="next" onsubmit="storeValues();" method="POST" action="{{ url_for('verb_form_exercise', verb_forms=verb_forms, index=index )}}">
+    <input type="hidden" id="result" name="result" value="">
+    <button id="next-button" type="submit" name="action" value="save">Next</button><br>
+    <span style="color:white;">(or press >)</span>
+</form>
+
+
+<div id="manage-button-div">
+    <button class="exercise-manage-button" onclick="showError()">Show Original Error</button>
+    <form onsubmit="return confirmSentenceDelete();storeValues();" method="POST" action="{{ url_for('verb_form_exercise', verb_forms=verb_forms, index=index)}}" onsubmit="confirmRemove();">
+        <button class="exercise-manage-button" type="submit" name="action" value="delete">Don't show me this sentence again</button>
+    </form>
+</div>
+
+<table class="exercise-display-table" id="error">  
+    <tr>
+        <th>Error:</th>
+        <td class="incorrect-sentence">{{ error.incorrect_sentence }}</td>
+        <td rowspan="4">
+            <a class="exercise-manage-button" href="{{ url_for('edit', error_id=error.id) }}" target="_blank">Edit</a>
+        </td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if error.error_topics %}
+                {% for error_topic in error.error_topics %}
+                    {{ error_topic.topic.topic_name }}<br> 
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error.error_rules %}
+                {% for error_rule in error.error_rules %}
+                    {{ error_rule.rule.rule_name }}<br>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<script>
+    var numVerbForms = {{ num_verb_forms }}
+</script>
+
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+
+
+{% endblock %}

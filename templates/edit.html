@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Edit Sentence{% endblock %}
+
+{% block content %}
+
+
+<table class="error-display-table">
+    <tr>
+        <th rowspan="4">{{ error.id }}  </th>
+        <th>Error:</th>
+        <td class="incorrect-sentence">{{ error.incorrect_sentence }}</td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if error.error_topics %}
+                {% for error_topic in error.error_topics %}
+                    {{ error_topic.topic.topic_name }}
+                    <a class="manage-link" onclick="return confirmTopicRemoval();" style="margin-right: 5px;"
+                       href="{{ url_for('remove_error_topic', error_id=error.id, error_topic_id=error_topic.id) }}" >
+                        Remove
+                    </a>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error.error_rules %}
+                {% for error_rule in error.error_rules %}
+                    {{ error_rule.rule.rule_name }}
+                    <a class="manage-link" href="{{ url_for('edit_rule', rule_id=error_rule.rule.id) }}" 
+                       target="blank" style="margin-right:5px;">
+                        Edit
+                    </a>
+                    <a class="manage-link" onclick="return confirmRuleRemoval();" style="margin-right:5px;"
+                       href="{{ url_for('remove_error_rule', error_id=error.id, error_rule_id=error_rule.id) }}">
+                        Remove
+                    </a>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<table class="form-table">
+    <tr>
+        <td colspan="2"><h2>Edit This Sentence:</h2></td>
+        <td>
+            <form style="display:inline" onsubmit="return false;">
+                <button onclick="showNewTopicForm()">Define New Topic</button>
+            </form>
+        </td>
+        <td>
+            <form style="display:inline" onsubmit="return false;">
+                <button onclick="showNewRuleForm()">Define New Rule</button>
+            </form>
+        </td>
+    </tr>
+    <form method="POST" action="{{ url_for('edit', error_id=error.id) }}" 
+                        onsubmit="return confirmEdit();" style="background-color:lightgray">                
+        {{ edit_form.hidden_tag() }}                
+            <tr>
+                <th>{{ edit_form.error.label }}</th>
+                <td colspan="3">{{ edit_form.error(size=75) }}</td>
+            </tr>
+            <tr>
+                <th>{{ edit_form.correction.label }}</th>
+                <td colspan="3">{{ edit_form.correction(rows=3, cols=75) }}</td>
+            </tr>
+            <tr>
+                <th>Add Topics:</th>
+                <td>{{ edit_form.topic1() }}</td>   
+                <td>{{ edit_form.topic2() }}</td> 
+                <td>{{ edit_form.topic3() }}</td>                                                  
+            <tr>
+                <th>Add Rules:</th>
+                <td>{{ edit_form.rule1() }}</td>
+                <td>{{ edit_form.rule2() }}</td>
+                <td>{{ edit_form.rule3() }}</td>
+            </tr>
+            <tr id="addNewTopicForm" style="display:none;">
+                <th>{{ edit_form.new_topic_name.label }}</th>
+                <td colspan="2">{{ edit_form.new_topic_name(size=75) }}</td>
+            </tr>
+            <tr id="addNewRuleForm" style="display:none;">
+                <th>{{ edit_form.new_rule_name.label }}</th>
+                <td colspan="3">{{ edit_form.new_rule_name(size=75) }}</td>
+            </tr>
+            <tr id="addNewRuleFormText" style="display:none;">
+                <th>{{ edit_form.new_rule_text.label }}</th>
+                <td colspan="3">{{ edit_form.new_rule_text(rows=3, cols=75, id='rule_text') }}</td>
+            </tr>
+            <tr id="addNewRuleFormTopics" style="display:none;">
+                <th>Add Topics:</th>
+                <td>{{ edit_form.rule_topic1() }}</td>
+                <td>{{ edit_form.rule_topic2() }}</td>
+                <td>{{ edit_form.rule_topic3() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ edit_form.submit() }}</td>
+            </tr>                 
+    </form>
+</table> 
+
+
+{% endblock %}

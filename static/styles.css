@@ -1,0 +1,635 @@
+
+body {
+    font-family: sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    min-width: 880px;
+    padding: 7px;
+    margin-bottom: 5px;
+}
+
+.navlink {
+    text-decoration: none;
+    padding: 5px;
+    background-color: #FAF9F6;
+    color: black;
+    border: solid lightgray;
+}
+
+.navlink:hover { 
+    text-decoration: none;
+    background-color: D5F3FE;
+    border: solid purple;
+}
+
+.flashed-message {
+    color: blue;
+    padding: 10px;
+}
+
+.manage-link {
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+    background-color: #FAF9F6;
+    border: solid lightgray;
+    border-radius: 10px;
+    padding: 3px;
+    margin-right: 5px;
+}
+
+.manage-link:hover { 
+    text-decoration: none;
+    color: black;
+    background-color: #D5F3FE;
+    border: solid purple;
+    border-radius: 10px;
+    padding: 3px;
+    margin-right: 5px;
+}
+
+li {
+    margin: 10px 0;
+}
+
+/* Alternating Row Colors: */
+
+.entry-container {
+    width: 100%;
+    min-width: 880px;
+}
+
+.entry-container:nth-child(even) {
+    background-color: #F0F0F0;
+}
+.entry-container:nth-child(odd) {
+    background-color: white;
+}
+
+/* Sticky Div: */
+
+.sticky-div {
+    width: 100%;
+    min-width: 880px;
+    position: sticky;
+    top: 0;
+    background-color: #F0F0F0;
+    padding: 10px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.select-topic-form {
+    margin: 0px;
+    display: inline-block;
+}
+
+.select-all {
+    background-color: white;
+    text-align: right;
+    min-width: 880px;
+}
+
+.delete-form {
+    text-align: right;
+}
+
+.manage-form {
+    margin: 0px;
+    float: right;
+    vertical-align: middle;
+}
+
+
+.form-table {
+    background-color: lightgray;
+    width: 100%;
+}
+
+.error-list-item {
+    width: 100%;
+    min-width: 880px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    .small {
+        width: 10%;
+    }
+    .large {
+        width: 50%;
+    }
+}
+
+.cloze-list-item {
+    width: 100%;
+    margin: 5px;
+    .small {
+        width: 10%;
+    }
+    .medium {
+        width: 20%;
+    }
+    .large {
+        width: 50%;
+    }
+}
+
+.error-display-table {
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    th, td {
+        padding: 8px;
+    }
+}
+
+.incorrect-sentence {
+    color: red;
+}
+
+.correct-sentence {
+    color: green;
+}
+
+.topic-name {
+    color: blue;
+}
+
+.rule-name {
+    color: purple;
+}
+
+/* Create an Exercise */
+
+.tabs {
+    width: 80%;
+    min-width: 800px;
+    display: flex;
+    gap: 2px;
+}
+
+
+.active-tab {
+    font-size: 25px;
+    font-weight: bold;
+    background-color: #ebebeb;
+    display: inline-block;
+    padding: 10px;
+    margin: 0px;
+    border-radius: 20px 20px 0 0;
+}
+
+.active-content {
+    width: 80%;
+    min-width: 800px;
+    background-color: #ebebeb;
+    padding: 10px;
+    border-right: 4px solid #cfcfcf;
+    border-bottom: 4px solid #cfcfcf;
+}
+
+.inactive-tab {
+    font-size: 16px;
+    background-color: #cfcfcf;
+    display: inline-block;
+    padding: 12px;
+    flex: 1;
+    margin: 0px;
+    border-radius: 20px 20px 0 0;
+    a {
+        text-decoration: none;
+        color: purple;
+        padding: 12px;
+    }
+    a:hover {
+        color: blue;
+    }
+}
+
+#exercise-image {
+    img {
+        width: 80%;
+        max-height: 140;
+    }
+}
+
+.edge-cell {
+    background-color: darkgray;
+}
+
+.lets-go {
+    margin-top: 100px;
+    margin-left: 20px;
+    input#submit {
+        background-color: #ebfafe;
+        border: 1px solid darkgray;
+        font-size: 18px;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    input#submit:hover {
+        background-color: rgb(255, 224, 229);
+        border: 1px solid rgb(0, 0, 145);
+    }
+}
+
+.loading-message {
+    color: blue;
+    display: none;
+}
+
+#cloze-instructions {
+    vertical-align: top;
+    p {
+        color: rgb(97, 97, 97);
+    }
+}
+
+.text-area-example {
+    width: 60%;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.example-word {
+    margin: 0px;
+    padding: 5px;
+}
+
+/* Exercises */
+
+.title-div {
+    text-align: center;
+}
+.exercise-title {
+    font-size: 25px;
+    text-align: center;
+    background-color: white;
+    padding: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+    border-radius: 25px;
+}
+
+#exercise-div {
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.exercise-text {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+#feedback {
+    display: none;
+}
+
+#feedback-message {
+    font-weight:bold;
+    text-align:center;
+    font-size: 20px;
+    padding-bottom: 10px;
+    margin: 0px;
+}
+
+.info-div {
+    text-align: center;
+}
+
+.info {
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.info-span {
+    margin: 10px;
+}
+
+#score {
+    font-weight: bold;
+    color: rgb(194, 0, 146);
+}
+
+#next {
+    text-align: center;
+}
+
+#next-button {
+    background-color: #FAF9F6;
+    font-size: 25px;
+    border: solid #FFE9EC;
+    border-radius: 10px;
+}
+
+#next-button:hover {
+    background-color: #FFE9EC;
+    font-size: 25px;
+    border: solid purple;
+    border-radius: 10px;
+}
+
+.exercise-display-table {
+    display: none;
+    width: fit-content;
+    font-size: 18px;
+    margin: auto;
+    border-radius: 5px;
+    background-color: white;
+    th, td {
+        padding: 5px;
+    }
+}
+
+.exercise-manage-button {
+    text-decoration: none;
+    font-family: "Lucida Grande";
+    color: black;
+    font-size: 18px;
+    padding: 5px;
+    background-color: #FAF9F6;
+    border: solid lightgray;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.exercise-manage-button:hover {
+    background-color: #D5F3FE;
+    border: solid purple;
+    border-radius: 10px;
+}
+
+/* Correct or Incorrect? */
+
+#green-button {
+    background-color: green;
+    font-size: 25px;
+    border: 1px solid green;
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#green-button:hover {
+    background-color: rgb(0, 161, 0);
+    border: 1px solid black;
+}
+
+#red-button {
+    background-color: rgb(235, 0, 0);
+    font-size: 25px;
+    border: 1px solid rgb(235, 0, 0);
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#red-button:hover {
+    background-color: red;
+    border: 1px solid black;
+}
+
+/* Choose the Correct Sentence */
+
+.sentence-option {
+    font-size: 30;
+    font-weight: bold;
+    text-decoration: none;
+    color: blue;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+}
+
+.sentence-option:hover {
+    font-size: 30;
+    font-weight: bold;
+    text-decoration: none;
+    color: blue;
+    background-color: #D5F3FE;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 10px;
+}
+
+#colored-sentences {
+    display: none;
+}
+
+#colored-sentence-a {
+    font-size: 30;
+    font-weight: bold;
+    padding: 5px;
+    margin: 10px;
+}
+
+#colored-sentence-b {
+    font-size: 30;
+    font-weight: bold;
+    padding: 5px;
+    margin: 10px;
+}
+
+/* Correct the Sentence */
+
+#sentence-to-correct {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+#correct-sentence {
+    font-size: 30px;
+    font-weight: bold;
+    display: none;
+}
+
+#input-div {
+    text-align: center;
+    padding-bottom: 10px;
+    input {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        background-color: darkgray;
+        border: 2px solid darkgray;
+        border-radius: 20px;
+        padding: 10px;
+        max-width: 75%;
+        box-sizing: border-box;
+    }
+    input:focus {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        background-color: darkgray;
+        border: 2px solid darkblue;
+        border-radius: 20px;
+        padding: 10px;
+        max-width: 75%;
+        box-sizing: border-box;
+    }
+}
+
+#input-instructions {
+    font-weight: bold;
+    margin: 10px;
+}
+
+
+/* Cloze Exercise */
+
+#clozed-sentence {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+#original-sentence {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px;
+    display: none;
+}
+
+.missing-word {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 2px;
+    color: purple;
+    visibility: hidden;
+    display: inline-block;
+}
+
+#target-words {
+
+    margin: auto;
+    padding: 10px;
+}
+
+.word-link {
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    border: 2px solid lightgray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.word-link:hover {
+    border: 2px solid darkblue;
+    background-color: #D5F3FE;
+}
+
+.word-link-label {
+    text-align: center;
+}
+
+#manage-button-div {
+    text-align: center;
+}
+
+/* Verb Form Exercise */
+
+#verb-forms-table {
+    margin: 0 auto;
+}
+
+.verb-forms a {
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px;
+    color: purple;
+}
+
+.verb-forms a:hover {
+    color: blue;
+}
+
+.verb-form-number {
+    font-size: 16px;
+}
+
+.verb-form-answer {
+    display: none;
+    span {
+        font-size: 25px;
+        font-weight: bold;
+        padding: 5px;
+    }
+}
+
+.non-verb-form {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Parse Sentence */
+
+.parse-display-table {
+    min-width: 700px;
+}
+
+.id-column {
+    width: 30px;
+}
+
+.label-column {
+    width: 100px;
+}
+
+.parsed-sentence {
+    background-color: #eef3f5;
+    margin: 2px;
+    padding: 2px;
+}
+
+.hover-trigger {
+    color: purple;
+    background-color: #fff3d1;
+    padding: 2px;
+    margin: 2px;
+}
+
+.hover-trigger:hover {
+    color: blue;
+    background-color: #D5F3FE;
+    cursor: pointer;
+}
+
+.hover-display {
+    color: blue;
+    background-color: white;
+    text-align: center;
+    padding: 2px;
+    margin: 2px;
+}
+
+.lemma {
+    background-color: #eef3f5;
+    padding: 2px;
+    margin: 2px;
+}
+
+.word-forms {
+    background-color: #eef3f5;
+    padding: 2px;
+    margin: 2px;
+}

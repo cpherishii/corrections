@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Correct or Incorrect?{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            background-color: darkgray;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="title-div">
+    <h2 class="exercise-title">Correct or Incorrect?</h2>
+</div>
+
+<div id="exercise-div">
+    <table class="exercise-text">
+        <tr>
+            <td colspan="2">
+                <h1 id="sentence">{{ sentence_to_display }}</h1>
+                {% if show_correct %}
+                    <h1 class="correct-sentence" id="colored-sentence" style="display:none;">
+                        {{ sentence_to_display }}
+                    </h1>
+                {% else %}
+                    <h1 class="incorrect-sentence" id="colored-sentence" style="display:none;">
+                        {{ sentence_to_display }}
+                    </h1>
+                    <div id="corrections" style="display:none;">
+                        {% for correction in error['corrections'] %}
+                            <h1 class="correct-sentence">{{ correction }}</h1>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+        <tr id="buttons">
+            <td class="button" style="text-align:center;">
+                <button id="green-button" onclick="correctOrIncorrect('correct', {{ show_correct | tojson }});">Correct</button><br>
+                <p>(press C for Correct)</p>
+            </td>
+            <td class="button" style="text-align:center;">
+                <button id="red-button" onclick="correctOrIncorrect('incorrect', {{ show_correct | tojson }});">Incorrect</button><br>
+                <p>(press I for Incorrect)</p>
+            </td>
+        </tr>
+    </table>
+    <div id="feedback">
+        <p id="feedback-message"></p>
+    </div>
+</div>
+
+<div class="info-div">
+    <p class="info">
+        <span class="info-span"><b>List:</b> {{ list.list_name }}</span>
+        <span class="info-span"><b>Showing:</b> Item {{ index + 1 }} of {{ list_length }}</span>
+        <span class="info-span" id="score"></span>
+        <a class="manage-link" href="#" onclick="resetSession();">Reset my score</a>
+    </p>
+</div>
+
+<form id="next" onsubmit="storeValues();" method="POST" action="{{ url_for('exercise', exercise_id=exercise_id, list_id=list.id, index=index )}}">
+    <input type="hidden" id="result" name="result" value="">
+    <button id="next-button" type="submit" name="action" value="save">Next</button><br>
+    <span style="color:white;">(or press >)</span>
+</form>
+
+<table class="exercise-display-table" id="error">  
+    <tr>
+        <th>Error:</th>
+        <td class="incorrect-sentence">{{ error['incorrect_sentence'] }}</td>
+        <td rowspan="4">
+            <a class="manage-link" href="{{ url_for('edit', error_id=error['id']) }}" target="_blank">Edit</a>
+        </td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error['corrections'] %}
+                {{ correction }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if error['topics'] %}
+                {% for topic in error['topics'] %}
+                    {{ topic['topic_name'] }}<br> 
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error['rules'] %}
+                {% for rule in error['rules'] %}
+                    {{ rule['rule_name'] }}<br>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <form onsubmit="storeValues();" method="POST" action="{{ url_for('exercise', exercise_id=exercise_id, list_id=list.id, index=index )}}">
+                <button class="exercise-manage-button" onclick="return confirmItemRemoval();" type="submit" name="action" value="delete">Don't show me this sentence again</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+
+{% endblock %}

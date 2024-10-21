@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="navbar">
+        <a class="navlink" href="{{ url_for('student_dashboard') }}">Home</a>
+        <a class="navlink" href="{{ url_for('topics') }}">Topics</a>
+        <a class="navlink" href="{{ url_for('display_by_topic') }}">Display by Topic</a>
+        <a class="navlink" href="{{ url_for('rules') }}">Rules</a>
+        <a class="navlink" href="{{ url_for('exercises') }}">Exercises</a>
+        <a class="navlink" href="{{ url_for('lists') }}">Lists</a>
+        <a class="navlink" href="{{ url_for('logout') }}" style="text-align:right;">Log Out</a>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+        <div class="flashed-message">{{ message }}</div>
+    {% endfor %}
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
