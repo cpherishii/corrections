@@ -92,7 +92,9 @@ def add_error(teacher_id=None, incorrect_sentence=None, correct_sentences=None, 
     #Define new rule:
     if new_rule_name:
         #new_rule_text = new_rule_text if new_rule_text is not None else ""
-        new_rule = Rule(rule_name=new_rule_name.strip().replace("’", "'"), rule_text=new_rule_text.strip().replace("’", "'"))
+        new_rule = Rule(rule_name=new_rule_name.strip().replace("’", "'"), 
+                        rule_text=new_rule_text.strip().replace("’", "'"),
+                        entered=datetime.now(timezone.utc))
         db.session.add(new_rule)
         try:
             db.session.flush()
@@ -181,7 +183,8 @@ def edit_error(error_id, incorrect_sentence, correct_sentences, topics=None, rul
             return 'This rule already exists.'
         else:
             new_rule_text = new_rule_text.strip().replace("’", "'") if new_rule_text is not None else ""
-            new_rule = Rule(rule_name=new_rule_name, rule_text=new_rule_text)
+            new_rule = Rule(rule_name=new_rule_name, rule_text=new_rule_text,
+                            entered=datetime.now(timezone.utc))
             db.session.add(new_rule)
             try:
                 db.session.flush()
@@ -255,7 +258,8 @@ def add_rules_and_topics_handler(error_id, topics=None, rules=None, new_topic_na
             return 'This rule already exists.'
         else:
             new_rule_text = new_rule_text if new_rule_text is not None else ""
-            new_rule = Rule(rule_name=new_rule_name, rule_text=new_rule_text)
+            new_rule = Rule(rule_name=new_rule_name, rule_text=new_rule_text,
+                            entered=datetime.now(timezone.utc))
             db.session.add(new_rule)
             try:
                 db.session.flush()
