@@ -1,8 +1,12 @@
 from extensions import db
+from app import app
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from flask_migrate import Migrate
+
+migrate = Migrate(app, db)
 
 class Teacher(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -79,6 +83,8 @@ class Rule(db.Model):
     examples = db.relationship('Example', backref = 'rule', lazy = 'joined', cascade = 'all, delete-orphan')
     rule_topics = db.relationship('RuleTopic', backref = 'rule', lazy = 'joined', cascade = 'all, delete-orphan')
     rule_errors = db.relationship('ErrorRule', backref = 'rule', lazy = 'joined', cascade = 'all, delete-orphan')
+    entered = db.Column(db.DateTime, default = datetime.now(timezone.utc), nullable=False)
+    last_edited = db.Column(db.DateTime, default = datetime.now(timezone.utc), nullable=False)
     comments = db.relationship('Comment', backref = 'rule', lazy = 'joined', cascade = 'all, delete-orphan')
 
 class Example(db.Model):
