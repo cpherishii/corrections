@@ -24,12 +24,13 @@
     <table>
         <tr>
             <th>Rule #{{ rule.id }}</th>
-            <td>{{ rule.rule_name }}</td>
-            <td>
-                <button onclick="showForm('{{ rule.id }}')">Show/Hide</button>
+            <td class="rule-name">
+                <a class="rule-link" href="{{ url_for('rule', rule_id=rule.id) }}" target="_blank">
+                    {{ rule.rule_name }}
+                </a>
             </td>
             <td>
-                <a class="manage-link" href="{{ url_for('rule', rule_id=rule.id) }}" target="_blank">View</a>
+                <button class="manage-link" onclick="showForm('{{ rule.id }}')">Expand</button>
             </td>
             <td>
                 <a class="manage-link" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank">Edit</a>

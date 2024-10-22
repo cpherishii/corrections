@@ -20,6 +20,27 @@
     {% endfor %}
 </ul>
 
+<p class="rule-heading">Comments:</p>
+
+{% if rule.comments %}
+    <button onclick="showForm('comments')">Show Comments</button>
+    <div id="comments" style="display:none;">
+    {% for comment in rule.comments %}
+        <p><b>{{ comment.subject_heading }}</b></p>
+        <p>{{ comment.message }}<p>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('rule', rule_id=rule.id)}}">
+    {{ add_comment_form.hidden_tag() }}
+    <b>{{ add_comment_form.subject_heading.label }}</b><br>
+    {{ add_comment_form.subject_heading(size=50) }}<br>
+    <b>{{ add_comment_form.message.label }}</b><br>
+    {{ add_comment_form.message(rows=3, cols=75) }}<br>
+    {{ add_comment_form.submit() }}
+</form>
+
 <p class="rule-heading">Errors:</p>
 
 {% for error in rule_errors %}

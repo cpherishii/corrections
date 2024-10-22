@@ -586,14 +586,28 @@ def rules():
             rules = db.session.query(Rule).outerjoin(RuleTopic).filter(RuleTopic.topic_id==topic.id).order_by(desc(Rule.id)).all()
     return render_template('rules.html', rules=rules, topic=topic, select_topic_form=select_topic_form)
 
-@app.route('/rule/<int:rule_id>')
+@app.route('/rule/<int:rule_id>', methods=['GET', 'POST'])
 def rule(rule_id):
     rule = Rule.query.filter_by(id=rule_id).first()
     rule_errors = [rule_error.error for rule_error in rule.rule_errors]
     rule_topics = [rule_topic.topic for rule_topic in rule.rule_topics]
     rule_comments = [comment for comment in rule.comments]
     
-    return render_template('rule.html', rule=rule, rule_topics=rule_topics, rule_errors=rule_errors, rule_comments=rule_comments)
+    add_comment_form = AddCommentForm(csrf_enabled=False)
+    
+    if request.method == 'POST' and add_comment_form.validate_on_submit():
+        new_comment = Comment(subject_heading=add_comment_form.subject_heading.data,
+                              message=add_comment_form.message.data,
+                              rule_id=rule.id)
+        db.session.add(new_comment)
+        try:
+            db.session.commit()
+            flash('Comment added successfully.', category='success')
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error committing to the database: {e}")
+    return render_template('rule.html', rule=rule, rule_topics=rule_topics, rule_errors=rule_errors, 
+                           rule_comments=rule_comments, add_comment_form=add_comment_form)
 
 @app.route('/parse_sentence/<int:error_id>')
 def parse_sentence(error_id):
