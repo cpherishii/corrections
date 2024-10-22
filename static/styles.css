@@ -112,6 +112,15 @@ li {
     padding: 10px;
 }
 
+.rule-heading {
+    font-weight: bold;
+}
+
+.rule-link {
+    text-decoration: none;
+    color: purple;
+}
+
 .error-list-item {
     width: 100%;
     min-width: 880px;

@@ -414,6 +414,7 @@ def edit_rule(rule_id):
     if request.method == 'POST' and edit_rule_form.validate_on_submit():
         rule.rule_name = request.form['rule_name']
         rule.rule_text = request.form['rule_text']
+        rule.last_edited = datetime.now(timezone.utc)
         for i in range(1, 4):
             topic_id = request.form.get(f'rule_topic{i}')
             if topic_id:
@@ -585,6 +586,14 @@ def rules():
             rules = db.session.query(Rule).outerjoin(RuleTopic).filter(RuleTopic.topic_id==topic.id).order_by(desc(Rule.id)).all()
     return render_template('rules.html', rules=rules, topic=topic, select_topic_form=select_topic_form)
 
+@app.route('/rule/<int:rule_id>')
+def rule(rule_id):
+    rule = Rule.query.filter_by(id=rule_id).first()
+    rule_errors = [rule_error.error for rule_error in rule.rule_errors]
+    rule_topics = [rule_topic.topic for rule_topic in rule.rule_topics]
+    rule_comments = [comment for comment in rule.comments]
+    
+    return render_template('rule.html', rule=rule, rule_topics=rule_topics, rule_errors=rule_errors, rule_comments=rule_comments)
 
 @app.route('/parse_sentence/<int:error_id>')
 def parse_sentence(error_id):

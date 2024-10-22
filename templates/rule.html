@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}View Rule{% endblock %}
+
+{% block content %}
+
+<h2>{{ rule.rule_name }}</h2>
+<a class="manage-link" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank">Edit</a>
+
+<p class="rule-heading">Explanation:</p>
+
+<p style="white-space: pre-wrap;">{{ rule.rule_text }}</p>
+
+<p><span class="rule-heading">Entered:</span> {{ rule.entered }}</p>
+
+<p class="rule-heading">Rule Topics:</p>
+
+<ul>
+    {% for rule_topic in rule_topics %}
+        <li>{{ rule_topic.topic_name }}</li>
+    {% endfor %}
+</ul>
+
+<p class="rule-heading">Errors:</p>
+
+{% for error in rule_errors %}
+
+<div class="entry-container">
+    <table class="error-list-item">
+        <tr>
+            <th class="small" rowspan="5" >{{ error.id }}  </th>
+            <th class="small">Error:</th>
+            <td class="large">
+                <span class="incorrect-sentence">{{ error.incorrect_sentence }}</span>
+            </td>
+            <td class="small" rowspan="3">
+                <a class="manage-link" href="{{ url_for('edit', error_id=error.id) }}" target="_blank">Edit</a>
+            </td>
+            <td class="small" rowspan="3">
+                <a class="manage-link" href="{{ url_for('delete_error', error_id=error.id) }}"
+                target="_blank" onclick="return confirmDelete();">Delete</a>
+            </td>
+            <td class="small" rowspan="4">
+                <input type="checkbox" name="error_checkbox" value="{{ error.id }}" class="error-checkbox">
+            </td>
+        </tr>
+        <tr>
+            <th>Correction:</th>
+            <td class="correct-sentence">
+                {% for correction in error.corrections %}
+                    {{ correction.correct_sentence }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th >Topic(s): </th>
+            <td class="topic-name">
+                {% if error.error_topics %}
+                    {% for error_topic in error.error_topics %}
+                        {{ error_topic.topic.topic_name }}<br> 
+                    {% endfor %}
+                {% else %}
+                    (none)
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Rule(s): </th>
+            <td class="rule-name">
+                {% if error.error_rules %}
+                    {% for error_rule in error.error_rules %}
+                        <a class="rule-link" href="{{ url_for('rule', rule_id=error_rule.rule.id)}}" target="_blank">
+                            {{ error_rule.rule.rule_name }}
+                        </a><br>
+                    {% endfor %}
+                {% else %}
+                    (none)
+                {% endif %}
+            </td>
+            <td colspan="2">
+                <a class="manage-link" href="{{ url_for('add_rules_and_topics', error_id=error.id) }}" target="_blank">Add Rules and Topics</a>
+            </td>
+        </tr>
+        <tr>
+            <th>Entered:</th>
+            <td>{{ error.entered }}</td>
+            <td colspan="2">
+                <a class="manage-link" href="{{ url_for('parse_sentence', error_id=error.id) }}" target="_blank">Parse</a>
+            </td>
+    </table>
+</div>
+
+{% endfor %}
+
+{% endblock %}

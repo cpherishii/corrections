@@ -26,7 +26,10 @@
             <th>Rule #{{ rule.id }}</th>
             <td>{{ rule.rule_name }}</td>
             <td>
-                <button onclick="toggleVisibility(event, '{{ rule.id }}')">Show/Hide</button>
+                <button onclick="showForm('{{ rule.id }}')">Show/Hide</button>
+            </td>
+            <td>
+                <a class="manage-link" href="{{ url_for('rule', rule_id=rule.id) }}" target="_blank">View</a>
             </td>
             <td>
                 <a class="manage-link" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank">Edit</a>
@@ -36,13 +39,15 @@
                         onclick="return confirmRuleDelete();">Delete</a>
             </td>
         </tr>
-        <tr class="{{ rule.id }}" style="display:none;">
-            <th>Explanation:</th>
-            <td>
+    </table>
+    <table id="{{ rule.id }}" style="display:none;">
+        <tr>
+            <th style="width:10%;">Explanation:</th>
+            <td style="width:90%;">
                 <div style="white-space: pre-wrap;">{{ rule.rule_text }}</div>
             </td>
         </tr>
-        <tr class="{{ rule.id }}" style="display:none;">
+        <tr>
             <th>Topic(s):</th>
             <td>
                 {% for rule_topic in rule.rule_topics %}
