@@ -497,7 +497,7 @@ def remove_rule_topic(rule_id, rule_topic_id):
 
 @app.route('/delete_topic/<int:topic_id>', methods=['GET', 'POST'])
 def delete_topic(topic_id):
-    topic_to_delete = Topic.query.filter_by(topic_id=topic_id).first()
+    topic_to_delete = Topic.query.filter_by(id=topic_id).first()
     db.session.delete(topic_to_delete)
     try:
         db.session.commit()
