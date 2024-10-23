@@ -309,6 +309,47 @@ def edit(error_id):
                    new_topic_name, new_rule_name, new_rule_text, new_rule_topic_ids)
         return redirect(url_for('edit', error_id=error_id))
     return render_template('edit.html', edit_form=edit_form, error=error)
+
+
+@app.route('/error_comment/<int:error_id>', methods=['GET', 'POST'])
+def error_comment(error_id):
+    error = Error.query.filter_by(id=error_id).first()
+    error_comment_form = AddCommentForm(csrf_enabled=False)
+    
+    if request.method == 'POST' and error_comment_form.validate_on_submit():
+        if error_comment_form.subject_heading.data:
+            subject_heading = error_comment_form.subject_heading.data
+        else:
+            subject_heading = '(None)'
+        new_comment = Comment(subject_heading = subject_heading,
+                              message = error_comment_form.message.data,
+                              error_id = error_id)
+        db.session.add(new_comment)
+        try:
+            db.session.commit()
+            flash('Comment added successfully.', category='success')
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error committing to the database: {e}")
+    return render_template('error_comment.html', error=error, error_comment_form=error_comment_form)
+
+@app.route('/delete_comment/<int:comment_id>', methods=['GET', 'POST'])
+def delete_comment(comment_id):
+    comment_to_delete = Comment.query.filter_by(id=comment_id).first()
+    error_id = comment_to_delete.error_id
+    
+    db.session.delete(comment_to_delete)
+    try:
+        db.session.commit()
+        flash('Comment deleted successfully.', category='success')
+    except Exception as e:
+        db.session.rollback()
+        print('Error deleting the comment: ' + str(e))
+        
+    if error_id:
+        return redirect(url_for('error_comment', error_id=error_id))
+    else:
+        return redirect(url_for('index'))
     
 @app.route('/add_rules_and_topics/<int:error_id>', methods=['GET', 'POST'])
 def add_rules_and_topics(error_id):

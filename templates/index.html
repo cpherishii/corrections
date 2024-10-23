@@ -97,7 +97,7 @@
 <div class="entry-container">
 <table class="error-list-item">
     <tr>
-        <th class="small" rowspan="5" >{{ error.id }}  </th>
+        <th class="tiny" rowspan="5" >{{ error.id }}  </th>
         <th class="small">Error:</th>
         <td class="large">
             <span class="incorrect-sentence">{{ error.incorrect_sentence }}</span>
@@ -106,13 +106,13 @@
             <a class="manage-link edit-icon" href="{{ url_for('edit', error_id=error.id) }}" target="_blank"
             title="Edit">
             </a>
-        </td>
-        <td class="small" rowspan="3">
             <a class="manage-link trash-icon" href="{{ url_for('delete_error', error_id=error.id) }}"
             target="_blank" onclick="return confirmDelete();" title="Delete"></a>
+            <a class="manage-link comment-icon" href="{{ url_for('error_comment', error_id=error.id) }}"
+            target="_blank" title="Comment">
         </td>
-        <td class="small" rowspan="4">
-            <input type="checkbox" name="error_checkbox" value="{{ error.id }}" class="error-checkbox">
+        <td class="tiny" rowspan="4">
+            <input class="error-checkbox" type="checkbox" name="error_checkbox" value="{{ error.id }}" class="error-checkbox">
         </td>
     </tr>
     <tr>
@@ -151,8 +151,6 @@
         <td>
             <a class="manage-link add-icon" href="{{ url_for('add_rules_and_topics', error_id=error.id) }}" 
             target="_blank" title="Add Rules and Topics"></a>
-        </td>
-        <td>
             <a class="manage-link parse-icon" href="{{ url_for('parse_sentence', error_id=error.id) }}" 
             target="_blank" title="Parse Sentence"></a>
         </td>

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Comment on This Sentence{% endblock %}
+
+{% block content %}
+
+
+<table class="error-display-table">
+    <tr>
+        <th rowspan="4">{{ error.id }}  </th>
+        <th>Error:</th>
+        <td class="incorrect-sentence">{{ error.incorrect_sentence }}</td>
+    </tr>
+    <tr>
+        <th>Correction:</th>
+        <td class="correct-sentence">
+            {% for correction in error.corrections %}
+                {{ correction.correct_sentence }}<br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>Topic(s): </th>
+        <td class="topic-name">
+            {% if error.error_topics %}
+                {% for error_topic in error.error_topics %}
+                    {{ error_topic.topic.topic_name }}
+                    <a class="manage-link trash-icon" onclick="return confirmTopicRemoval();" style="margin-right: 5px;"
+                       href="{{ url_for('remove_error_topic', error_id=error.id, error_topic_id=error_topic.id) }}"
+                       title="Remove"></a>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>Rule(s): </th>
+        <td class="rule-name">
+            {% if error.error_rules %}
+                {% for error_rule in error.error_rules %}
+                    {{ error_rule.rule.rule_name }}
+                    <a class="manage-link" href="{{ url_for('edit_rule', rule_id=error_rule.rule.id) }}" 
+                       target="blank" style="margin-right:5px;">
+                        Edit
+                    </a>
+                    <a class="manage-link" onclick="return confirmRuleRemoval();" style="margin-right:5px;"
+                       href="{{ url_for('remove_error_rule', error_id=error.id, error_rule_id=error_rule.id) }}">
+                        Remove
+                    </a>
+                {% endfor %}
+            {% else %}
+                (none)
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<table class="form-table">
+    <tr>
+        <td colspan="2"><h2>Comment on This Sentence:</h2></td>
+    </tr>
+    <form method="POST" action="{{ url_for('error_comment', error_id=error.id) }}" 
+                        style="background-color:lightgray">                
+        {{ error_comment_form.hidden_tag() }}                
+            <tr>
+                <th>{{ error_comment_form.subject_heading.label }}</th>
+                <td colspan="3">{{ error_comment_form.subject_heading(size=75) }}</td>
+            </tr>
+            <tr>
+                <th>{{ error_comment_form.message.label }}</th>
+                <td colspan="3">{{ error_comment_form.message(rows=3, cols=75) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ error_comment_form.submit() }}</td>
+            </tr>                 
+    </form>
+</table> 
+
+{% for comment in error.comments %}
+<div class="entry-container">
+    <table class="error-list-item">
+        <tr>
+            <th class="small">Subject Heading:</th>
+            <td class="large"><b>{{ comment.subject_heading }}</b></td>
+            <td rowspan="3">
+                <a class="manage-link trash-icon" href="{{ url_for('delete_comment', comment_id=comment.id) }}"
+                title="Delete Comment" onclick="return confirmCommentDelete();"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Comment:</th>
+            <td>
+                {{ comment.message }}
+            </td>
+        </tr>
+        <tr>
+            <th>Posted:</th>
+            <td>{{ comment.posted }}</td>
+    </table>
+</div>
+{% endfor %}
+
+{% endblock %}

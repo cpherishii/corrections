@@ -121,6 +121,10 @@ li {
     color: purple;
 }
 
+.rule-link:hover {
+    color: rgb(207, 2, 207);
+}
+
 /* Link Icons */
 
 
@@ -148,6 +152,13 @@ li {
 .parse-icon::before {
     font-family: "bootstrap-icons";
     content: "\f52a";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.comment-icon::before {
+    font-family: "bootstrap-icons";
+    content: "\f268";
     display: inline-block;
     vertical-align: middle;
 }
@@ -206,8 +217,11 @@ li {
     min-width: 880px;
     padding-top: 5px;
     padding-bottom: 5px;
+    .tiny {
+        width: 5%
+    }
     .small {
-        width: 10%;
+        width:20%;
     }
     .large {
         width: 50%;
@@ -226,6 +240,10 @@ li {
     .large {
         width: 50%;
     }
+}
+
+.error-checkbox {
+    text-align: right;
 }
 
 .error-display-table {

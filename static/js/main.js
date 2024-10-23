@@ -32,6 +32,10 @@ function confirmDelete() {
     return confirm('Are you sure you want to delete this sentence?');
 }
 
+function confirmCommentDelete() {
+    return confirm('Are you sure you want to delete this comment?')
+}
+
 function confirmTopicRemoval() {
     return confirm('Are you sure you want to remove this topic?');
 }

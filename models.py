@@ -136,3 +136,4 @@ class Comment(db.Model):
     message = db.Column(db.Text, nullable = False)
     error_id = db.Column(db.Integer, db.ForeignKey('error.id'))
     rule_id = db.Column(db.Integer, db.ForeignKey('rule.id'))
+    posted = db.Column(db.DateTime, default = datetime.now(timezone.utc))
