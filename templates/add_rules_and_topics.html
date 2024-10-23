@@ -23,10 +23,8 @@
             {% if error.error_topics %}
                 {% for error_topic in error.error_topics %}
                     {{ error_topic.topic.topic_name }}
-                    <a class="manage-link" href="{{ url_for('remove_error_topic', error_id=error.id, error_topic_id=error_topic.id) }}" 
-                            onclick="return confirmTopicRemoval();">
-                        Remove
-                    </a>
+                    <a class="manage-link trash-icon" href="{{ url_for('remove_error_topic', error_id=error.id, error_topic_id=error_topic.id) }}" 
+                            onclick="return confirmTopicRemoval();" title="Remove"></a>
                 {% endfor %}
             {% else %}
                 (none)

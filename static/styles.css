@@ -121,6 +121,38 @@ li {
     color: purple;
 }
 
+/* Link Icons */
+
+
+.edit-icon::before {
+    font-family: "bootstrap-icons";
+    content: "\f4cb";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.trash-icon::before {
+    font-family: "bootstrap-icons";
+    content: "\f5de";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.add-icon::before {
+    font-family: "bootstrap-icons";
+    content: "\f64d";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.parse-icon::before {
+    font-family: "bootstrap-icons";
+    content: "\f52a";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
 .error-list-item {
     width: 100%;
     min-width: 880px;
