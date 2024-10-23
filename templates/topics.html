@@ -18,8 +18,10 @@
 {% for topic in topics %}
     <li class="topic-list-items">
         {{ topic.topic_name }}
-        <a class="manage-link" href="#" onclick="showForm('form-cell-{{ topic.id }}')">Edit</a>
-        <a class="manage-link" href="{{ url_for('delete_topic', topic_id=topic.id) }}" onclick="return confirmTopicDelete();">Delete</a>
+        <a class="manage-link edit-icon" href="#" onclick="showForm('form-cell-{{ topic.id }}')"
+        title="Edit"></a>
+        <a class="manage-link trash-icon" href="{{ url_for('delete_topic', topic_id=topic.id) }}" 
+        onclick="return confirmTopicDelete();" title="Delete"></a>
         <form class="topic-form" id="form-cell-{{ topic.id }}" method="POST" style="display:none;"
         action="{{ url_for('edit_topic', topic_id=topic.id) }}" onsubmit="return confirmTopicEdit();">
             {{ edit_topic_form.hidden_tag() }}

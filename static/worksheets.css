@@ -9,18 +9,3 @@ ol li {
         display: none;
     }
 }
-.manage-link {
-    text-decoration: none;
-    color: black;
-    background-color: #FFE9EC;
-    border: solid lightgray;
-    border-radius: 5px;
-    margin-right: 5px;
-}
-        
-.manage-link:hover { 
-    text-decoration: none;
-    background-color: #D5F3FE;
-    border: solid purple;
-    border-radius: 5px;
-}

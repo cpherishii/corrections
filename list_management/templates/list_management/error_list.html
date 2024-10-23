@@ -72,10 +72,12 @@
             <span class="incorrect-sentence">{{ list_item.error.incorrect_sentence }}</span>
         </td>
         <td rowspan="3">
-            <a class="manage-link" href="{{ url_for('edit', error_id=list_item.error_id) }}" target="_blank">Edit</a>
+            <a class="manage-link edit-icon" href="{{ url_for('edit', error_id=list_item.error.id) }}" target="_blank"
+            title="Edit"></a>
         </td>
         <td class="small" rowspan="3">
-            <a class="manage-link" href="{{ url_for('remove_list_item', list_id=list.id, list_item_id=list_item.id) }}" onclick="return confirmItemRemoval();">Remove</a>
+            <a class="manage-link trash-icon" href="{{ url_for('remove_list_item', list_id=list.id, list_item_id=list_item.id) }}" 
+            onclick="return confirmItemRemoval();" title="Remove"></a>
         </td>
         <td class="small">
             <input type="checkbox" name="error_checkbox" value="{{ list_item.id }}" class="error-checkbox">
@@ -112,8 +114,13 @@
                 (none)
             {% endif %}
         </td>
-        <td colspan="2">
-            <a class="manage-link" href="{{ url_for('add_rules_and_topics', error_id=list_item.error_id) }}" target="_blank">Add Rules and Topics</a>
+        <td>
+            <a class="manage-link add-icon" href="{{ url_for('add_rules_and_topics', error_id=list_item.error.id) }}" 
+            target="_blank" title="Add Rules and Topics"></a>
+        </td>
+        <td>
+            <a class="manage-link parse-icon" href="{{ url_for('parse_sentence', error_id=list_item.error.id) }}" 
+            target="_blank" title="Parse Sentence"></a>
         </td>
     </tr>
     <tr>

@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloze Worksheet</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='worksheets.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
@@ -32,18 +34,17 @@
     {% for question in questions %}
         <li>
             {{ question.clozed_sentence }}
-            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+            <a class="manage-link trash-icon" href="{{ url_for('manage_question', exercise='cloze',
                         list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                        onclick="confirmQuestionRemove();">
-                Remove Question
+                        onclick="confirmQuestionRemove();" title="Remove Question">
             </a>
-            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
-                Move Up
+            <a class="manage-link up-icon" href="{{ url_for('manage_question', exercise='cloze',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                        title="Move Up">
             </a>
-            <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
-                Move Down
+            <a class="manage-link down-icon" href="{{ url_for('manage_question', exercise='cloze',
+                        list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                        title="Move Down">
             </a>
         </li>
     {% endfor %}
@@ -76,35 +77,33 @@
             {% if loop.index0 is odd %}
                 <li style="color:blue;">
                     {{ question.clozed_sentence }}
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                    <a class="manage-link trash-icon" href="{{ url_for('manage_question', exercise='cloze',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                                onclick="confirmQuestionRemove();">
-                        Remove Question
+                                onclick="confirmQuestionRemove();" title="Remove Question">
                     </a>
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
-                        Move Up
+                    <a class="manage-link up-icon" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                                title="Move Up">
                     </a>
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
-                        Move Down
+                    <a class="manage-link down-icon" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                                title="Move Down">
                     </a>
                 </li>
             {% else %}
                 <li>
                     {{ question.clozed_sentence }}
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
+                    <a class="manage-link trash-icon" href="{{ url_for('manage_question', exercise='cloze',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                                onclick="confirmQuestionRemove();">
-                        Remove Question
+                                onclick="confirmQuestionRemove();" title="Remove Question">
                     </a>
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}">
-                        Move Up
+                    <a class="manage-link up-icon" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
+                                title="Move Up">
                     </a>
-                    <a class="manage-link" href="{{ url_for('manage_question', exercise='cloze',
-                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}">
-                        Move Down
+                    <a class="manage-link down-icon" href="{{ url_for('manage_question', exercise='cloze',
+                                list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
+                                title="Move Down">
                     </a>
                     <br>
                     <b>Answer:

@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose the Correct Sentence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='worksheets.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
@@ -28,18 +30,15 @@
             A: {{ question['sentence_a'] }}
             <a href="{{ url_for('manage_question', exercise='error_2',
                         list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                        onclick="confirmQuestionRemove();", class="manage-link">
-                Remove Question
+                        onclick="confirmQuestionRemove();", class="manage-link trash-icon" title="Remove Question">
             </a>
             <a href="{{ url_for('manage_question', exercise='error_2',
                         list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
-                        class="manage-link">
-                Move Up
+                        class="manage-link up-icon" title="Move Up">
             </a>
             <a href="{{ url_for('manage_question', exercise='error_2',
                         list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
-                        class="manage-link">
-                Move Down
+                        class="manage-link down-icon" title="Move Down">
             </a><br>
             B: {{ question['sentence_b'] }}
         </li>
@@ -74,18 +73,15 @@
                     A: {{ question['sentence_a'] }}
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                                onclick="confirmQuestionRemove();", class="manage-link">
-                        Remove Question
+                                onclick="confirmQuestionRemove();", class="manage-link trash-icon" title="Remove Question">
                     </a>
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
-                                class="manage-link">
-                        Move Up
+                                class="manage-link up-icon" title="Move Up">
                     </a>
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
-                                class="manage-link">
-                        Move Down
+                                class="manage-link down-icon" title="Move Down">
                     </a><br>
                     B: {{ question['sentence_b'] }}
                 </li>
@@ -99,18 +95,15 @@
                     {% endif %}
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='remove') }}"
-                                onclick="confirmQuestionRemove();", class="manage-link">
-                        Remove Question
+                                onclick="confirmQuestionRemove();", class="manage-link trash-icon" title="Remove Question">
                     </a>
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='up') }}"
-                                class="manage-link">
-                        Move Up
+                                class="manage-link up-icon" title="Move Up">
                     </a>
                     <a href="{{ url_for('manage_question', exercise='error_2',
                                 list_id=list.id, title=title, worksheet_type=worksheet_type, number_of_questions=number_of_questions, index=loop.index0, action='down') }}"
-                                class="manage-link">
-                        Move Down
+                                class="manage-link down-icon" title="Move Down">
                     </a><br>
                     {% if question['answer'] == 'B' %}
                         <span style="color:green;">B: {{ question['sentence_b'] }}</span>

@@ -30,14 +30,14 @@
                 </a>
             </td>
             <td>
-                <button class="manage-link" onclick="showForm('{{ rule.id }}')">Expand</button>
+                <button class="manage-link expand-icon" onclick="showForm('{{ rule.id }}')" title="Expand"></button>
             </td>
             <td>
-                <a class="manage-link" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank">Edit</a>
+                <a class="manage-link edit-icon" href="{{ url_for('edit_rule', rule_id=rule.id) }}" target="_blank" title="Edit"></a>
             </td>
             <td>
-                <a class="manage-link" href="{{ url_for('delete_rule', rule_id=rule.id) }}" 
-                        onclick="return confirmRuleDelete();">Delete</a>
+                <a class="manage-link trash-icon" href="{{ url_for('delete_rule', rule_id=rule.id) }}" 
+                        onclick="return confirmRuleDelete();" title="Delete"></a>
             </td>
         </tr>
     </table>

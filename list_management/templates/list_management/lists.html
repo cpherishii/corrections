@@ -20,11 +20,14 @@
 <div class="entry-container">
     <table style="width:100%;">
         <tr>
-            <th style="width:45%;text-align:left;">{{ list.list_name }}</th>
+            <th style="width:45%;text-align:left;">
+                <a class="list-link" href="{{ url_for('error_list', list_id=list.id) }}" target="_blank" title="Show Items">
+                    {{ list.list_name }}
+                </a>
+            </th>
             <td rowspan="2" style="width:45%;">
-                <a class="manage-link" href="{{ url_for('error_list', list_id=list.id) }}" target="_blank">Show Items</a>
-                <a class="manage-link" href="javascript:;" onclick="showForm('error-form-cell-{{ list.id }}');">Rename</a>
-                <a class="manage-link" href="{{ url_for('delete_list', list_id=list.id) }}" onclick="return confirmListDelete();">Delete</a>
+                <a class="manage-link edit-icon" href="javascript:;" onclick="showForm('error-form-cell-{{ list.id }}');" title="Rename"></a>
+                <a class="manage-link trash-icon" href="{{ url_for('delete_list', list_id=list.id) }}" onclick="return confirmListDelete();" title="Delete"></a>
             </td>
             <td rowspan="2" style="width:10%;">
                 <input type="checkbox" name="list_checkbox" value="{{ list.id }}" class="error-list-checkbox">
@@ -62,11 +65,15 @@
 <div class="entry-container">
     <table style="width:100%;">
         <tr>
-            <th style="width=45%;text-align:left;">{{ list.list_name }}</th>
+            <th style="width=45%;text-align:left;">
+                <a class="list-link" href="{{ url_for('cloze_list', cloze_list_id=list.id) }}" target="_blank" title="Show Items">
+                    {{ list.list_name }}</a>
+                </th>
             <td rowspan="2" style="width:45%;">
-                <a class="manage-link" href="{{ url_for('cloze_list', cloze_list_id=list.id) }}" target="_blank">Show Items</a>
-                <a class="manage-link" href="javascript:;" onclick="showForm('cloze-form-cell-{{ list.id }}')">Rename</a>
-                <a class="manage-link" href="{{ url_for('delete_cloze_list', cloze_list_id=list.id) }}" onclick="return confirmListDelete();">Delete</a>
+                <a class="manage-link edit-icon" href="javascript:;" onclick="showForm('cloze-form-cell-{{ list.id }}')"
+                title="Rename"></a>
+                <a class="manage-link trash-icon" href="{{ url_for('delete_cloze_list', cloze_list_id=list.id) }}" 
+                onclick="return confirmListDelete();" title="Delete"></a>
             </td>
             <td rowspan="2" style="width:10%">
                 <input type="checkbox" name="list_checkbox" value="{{ list.id }}" class="cloze-list-checkbox">
