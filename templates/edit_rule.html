@@ -11,14 +11,14 @@
     </tr>
     <tr>
         <th>Explanation:</th>
-        <td><div style="white-space: pre-wrap;">{{ rule.rule_text }}</div></td>
+        <td><md-block class="markdown-content">{{ rule.rule_text }}</md-block></td>
     </tr>
     <tr>
         <th>Topic(s):</th>
         <td>
             {% for rule_topic in rule.rule_topics %}
                 {{ rule_topic.topic.topic_name }}
-                <a class="manage-link trash icon" onclick="return confirmTopicRemoval();" style="margin:5px;"
+                <a class="manage-link trash-icon" onclick="return confirmTopicRemoval();" style="margin:5px;"
                    href="{{ url_for('remove_rule_topic', rule_id=rule.id, rule_topic_id=rule_topic.id) }}"
                    title="Remove"></a>
             {% endfor %}
