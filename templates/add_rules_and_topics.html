@@ -66,15 +66,15 @@
         {{ add_rules_and_topics_form.hidden_tag() }}                
             <tr>
                 <th>Add Topics:</th>
-                <td>{{ add_rules_and_topics_form.topic1() }}</td>   
-                <td>{{ add_rules_and_topics_form.topic2() }}</td> 
-                <td>{{ add_rules_and_topics_form.topic3() }}</td> 
+                <td>{{ add_rules_and_topics_form.topic1(class="select2-field") }}</td>   
+                <td>{{ add_rules_and_topics_form.topic2(class="select2-field") }}</td> 
+                <td>{{ add_rules_and_topics_form.topic3(class="select2-field") }}</td> 
             </tr>
             <tr>
                 <th>Add Rules:</th>
-                <td>{{ add_rules_and_topics_form.rule1() }}</td>
-                <td>{{ add_rules_and_topics_form.rule2() }}</td>
-                <td>{{ add_rules_and_topics_form.rule3() }}</td>
+                <td>{{ add_rules_and_topics_form.rule1(class="select2-field") }}</td>
+                <td>{{ add_rules_and_topics_form.rule2(class="select2-field") }}</td>
+                <td>{{ add_rules_and_topics_form.rule3(class="select2-field") }}</td>
             </tr>                                                 
             <tr id="addNewTopicForm" style="display:none;">
                 <th>{{ add_rules_and_topics_form.new_topic_name.label }}</th>
@@ -90,9 +90,9 @@
             </tr>
             <tr>
                 <th>Add Topics:</th>
-                <td>{{ add_rules_and_topics_form.rule_topic1() }}</td>
-                <td>{{ add_rules_and_topics_form.rule_topic2() }}</td>
-                <td>{{ add_rules_and_topics_form.rule_topic3() }}</td>
+                <td>{{ add_rules_and_topics_form.rule_topic1(class="select2-field") }}</td>
+                <td>{{ add_rules_and_topics_form.rule_topic2(class="select2-field") }}</td>
+                <td>{{ add_rules_and_topics_form.rule_topic3(class="select2-field") }}</td>
             </tr>
             <tr>
                 <td></td>

@@ -239,3 +239,24 @@ function showText(text, id) {
     }
     
 }
+
+
+$(document).ready(function() {
+    // Initialize Select2 on all select elements with the class 'select2-field'
+    $('.select2-field').select2({
+        placeholder: 'Select an Option',
+        allowClear: true,
+        minimumResultsForSearch: 1
+    });
+
+    // Focus the search input when the dropdown is opened
+    $('.select2-field').on('select2:open', function() {
+        // Use setTimeout to ensure the search input is available
+        let searchField = document.querySelector('.select2-search__field');
+        if (searchField) {
+            setTimeout(function() {
+                searchField.focus();
+            }, 100);
+        }
+    });
+});

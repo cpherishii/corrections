@@ -31,15 +31,15 @@
             </tr>
             <tr>
                 <th>Add Topics:</th>
-                <td>{{ add_form.topic1() }}</td>
-                <td>{{ add_form.topic2() }}</td>
-                <td>{{ add_form.topic3() }}</td>
+                <td>{{ add_form.topic1(class="select2-field") }}</td>
+                <td>{{ add_form.topic2(class="select2-field") }}</td>
+                <td>{{ add_form.topic3(class="select2-field") }}</td>
             </tr>
             <tr>
                 <th>Add Rules:</th>
-                <td>{{ add_form.rule1() }}</td>
-                <td>{{ add_form.rule2() }}</td>
-                <td>{{ add_form.rule3() }}</td>            
+                <td>{{ add_form.rule1(class="select2-field") }}</td>
+                <td>{{ add_form.rule2(class="select2-field") }}</td>
+                <td>{{ add_form.rule3(class="select2-field") }}</td>            
             </tr>
             <tr id="addNewTopicForm" style="display:none;">
                 <th>{{ add_form.new_topic_name.label }}</th>
@@ -55,9 +55,9 @@
             </tr>
             <tr id="addNewRuleFormTopics" style="display:none;">
                 <th>Add Topics:</th>
-                <td>{{ add_form.rule_topic1() }}</td>
-                <td>{{ add_form.rule_topic2() }}</td>
-                <td>{{ add_form.rule_topic3() }}</td>
+                <td>{{ add_form.rule_topic1(class="select2-field") }}</td>
+                <td>{{ add_form.rule_topic2(class="select2-field") }}</td>
+                <td>{{ add_form.rule_topic3(class="select2-field") }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -104,8 +104,7 @@
         </td>
         <td class="small" rowspan="3">
             <a class="manage-link edit-icon" href="{{ url_for('edit', error_id=error.id) }}" target="_blank"
-            title="Edit">
-            </a>
+            title="Edit"></a>
             <a class="manage-link trash-icon" href="{{ url_for('delete_error', error_id=error.id) }}"
             target="_blank" onclick="return confirmDelete();" title="Delete"></a>
             <a class="manage-link comment-icon" href="{{ url_for('error_comment', error_id=error.id) }}"

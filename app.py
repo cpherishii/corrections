@@ -237,12 +237,6 @@ def edit(error_id):
     
     edit_form = EditForm(error=error.incorrect_sentence,
                          correction=corrections,
-                         topic1=topics[0] if len(topics) > 0 else '',
-                         topic2=topics[1] if len(topics) > 1 else '',
-                         topic3=topics[2] if len(topics) > 2 else '',
-                         rule1=rules[0] if len(rules) > 0 else '',
-                         rule2=rules[1] if len(rules) > 1 else '',
-                         rule3=rules[2] if len(rules) > 2 else '',
                          csrf_enabled=False)
     #Set choices for the form fields:
     edit_form.topic1.choices = topic_tags
@@ -360,13 +354,7 @@ def add_rules_and_topics(error_id):
     all_rules = Rule.query.order_by(Rule.rule_name).all()
     rule_tags = [('', 'Select a Rule (optional)')] + [(rule.id, rule.rule_name) for rule in all_rules]    
     topic_tags = [('', 'Select a Topic (optional)')] + [(topic.id, topic.topic_name) for topic in all_topics]
-    add_rules_and_topics_form = AddRulesAndTopicsForm(topic1=topics[0] if len(topics) > 0 else '',
-                                        topic2=topics[1] if len(topics) > 1 else '',
-                                        topic3=topics[2] if len(topics) > 2 else '',
-                                        rule1=rules[0] if len(rules) > 0 else '',
-                                        rule2=rules[1] if len(rules) > 1 else '',
-                                        rule3=rules[2] if len(rules) > 2 else '',
-                                        csrf_enabled=False)
+    add_rules_and_topics_form = AddRulesAndTopicsForm(csrf_enabled=False)
     add_rules_and_topics_form.topic1.choices = topic_tags
     add_rules_and_topics_form.topic2.choices = topic_tags
     add_rules_and_topics_form.topic3.choices = topic_tags
@@ -445,9 +433,6 @@ def edit_rule(rule_id):
     topic_tags = [('', 'Select a Topic (optional)')] + [(topic.id, topic.topic_name) for topic in all_topics]
     edit_rule_form = EditRuleForm(rule_name=rule.rule_name,
                                   rule_text=rule_text,
-                                  rule_topic1=rule_topics[0] if len(rule_topics) > 0 else '',
-                                  rule_topic2=rule_topics[1] if len(rule_topics) > 1 else '',
-                                  rule_topic3=rule_topics[2] if len(rule_topics) > 2 else '', 
                                   csfr_enabled=False)
     edit_rule_form.rule_topic1.choices = topic_tags
     edit_rule_form.rule_topic2.choices = topic_tags

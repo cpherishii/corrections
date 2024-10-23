@@ -36,18 +36,14 @@ body {
     background-color: #FAF9F6;
     border: solid lightgray;
     border-radius: 10px;
-    padding: 3px;
+    padding: 5px;
     margin-right: 5px;
 }
 
 .manage-link:hover { 
-    text-decoration: none;
     color: black;
     background-color: #D5F3FE;
     border: solid purple;
-    border-radius: 10px;
-    padding: 3px;
-    margin-right: 5px;
 }
 
 li {
@@ -125,6 +121,17 @@ li {
     color: rgb(207, 2, 207);
 }
 
+/* Change the font size of the text inside the selected field (the main display box) */
+.select2-container .select2-selection--single .select2-selection__rendered {
+    font-size: 14px;  
+}
+
+/* Change the font size inside the dropdown list */
+.select2-container .select2-results__option {
+    font-size: 14px;
+}
+
+
 /* Link Icons */
 
 
@@ -133,6 +140,7 @@ li {
     content: "\f4cb";
     display: inline-block;
     vertical-align: middle;
+    text-align: center;
 }
 
 .trash-icon::before {
