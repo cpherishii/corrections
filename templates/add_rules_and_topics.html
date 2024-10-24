@@ -37,13 +37,9 @@
             {% if error.error_rules %}
                 {% for error_rule in error.error_rules %}
                     {{ error_rule.rule.rule_name }}
-                    <a class="manage-link" href="{{ url_for('edit_rule', rule_id=error_rule.rule.id) }}" target="blank">
-                        Edit
-                    </a>
-                    <a class="manage-link" href="{{ url_for('remove_error_rule', error_id=error.id, error_rule_id=error_rule.id) }}" 
-                            onclick="return confirmRuleRemoval();">
-                        Remove
-                    </a>
+                    <a class="manage-link edit-icon" href="{{ url_for('edit_rule', rule_id=error_rule.rule.id) }}" target="blank" title="Edit"></a>
+                    <a class="manage-link trash-icon" href="{{ url_for('remove_error_rule', error_id=error.id, error_rule_id=error_rule.id) }}" 
+                            onclick="return confirmRuleRemoval();" title="Remove"></a>
                 {% endfor %}
             {% else %}
                 (none)

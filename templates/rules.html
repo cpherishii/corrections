@@ -40,11 +40,13 @@
                         onclick="return confirmRuleDelete();" title="Delete"></a>
             </td>
         </tr>
+        <tr>
+            <th>No. of Errors:</th>
+            <td>{{ rule.rule_errors | length }}</td>
     </table>
     <table id="{{ rule.id }}" style="display:none;">
         <tr>
-            <th style="width:10%;">Explanation:</th>
-            <td style="width:90%;">
+            <td>
                 <md-block class="markdown-content">
                     {{ rule.rule_text }}
                 </md-block>
