@@ -14,6 +14,7 @@
     <form method="POST" action="{{ url_for('edit_list', list_id=list.id) }}" onsubmit="return confirmListRename();">
         <tr>
         {{ edit_list_form.hidden_tag() }}
+        {{ edit_list_form.csrf_token }}
             <td>{{ edit_list_form.list_name.label }}</td>
             <td>{{ edit_list_form.list_name(value=list.list_name, size=75) }}</td>
         </tr>
@@ -27,6 +28,7 @@
     <form method="POST" action="{{ url_for('error_list', list_id=list.id) }}" target="_blank">
         <tr>
         {{ worksheet_form.hidden_tag() }}
+        {{ worksheet_form.csrf_token }}
             <th>{{ worksheet_form.title.label }}</th>
             <td>{{ worksheet_form.title(size=75) }}</td>
         </tr>

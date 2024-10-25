@@ -18,6 +18,7 @@
     <table class="active-content">
         <form id="errorExerciseForm" method="POST" action="{{ url_for('exercises') }}">
             {{ error_exercise_form.hidden_tag() }}
+            {{ error_exercise_form.csrf_token }}
             <tr>
                 <td style="width:50%;">
                     {{ error_exercise_form.exercise(id="exercise") }}
@@ -62,6 +63,7 @@
     <table class="active-content">
         <form id="clozeExerciseForm" method="POST" action="{{ url_for('create_cloze_exercise') }}">
             {{ cloze_exercise_form.hidden_tag() }}
+            {{ cloze_exercise_form.csrf_token }}
             <tr>
                 <td colspan="2"></td>
             </tr>
@@ -117,6 +119,7 @@
     <table class="active-content">
         <form id="verbFormExerciseForm" method="POST" action="{{ url_for('create_verb_form_exercise') }}">
             {{ verb_form_exercise_form.hidden_tag() }}
+            {{ verb_form_exercise_form.csrf_token }}
             <tr>
                 <td colspan="2"></td>
             </tr>

@@ -32,7 +32,8 @@
     </tr>
     <form method="POST" action="{{ url_for('edit_rule', rule_id=rule.id) }}" 
                         onsubmit="return confirmRuleEdit();" style="background-color:lightgray">                
-        {{ edit_rule_form.hidden_tag() }}                
+        {{ edit_rule_form.hidden_tag() }}
+        {{ edit_rule_form.csrf_token }}                
             <tr>
                 <th>{{ edit_rule_form.rule_name.label }}</th>
                 <td colspan="3">{{ edit_rule_form.rule_name(size=75) }}</td>

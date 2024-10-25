@@ -61,7 +61,8 @@
     </tr>
     <form method="POST" action="{{ url_for('error_comment', error_id=error.id) }}" 
                         style="background-color:lightgray">                
-        {{ error_comment_form.hidden_tag() }}                
+        {{ error_comment_form.hidden_tag() }}
+        {{ error_comment_form.csrf_token }}                
             <tr>
                 <th>{{ error_comment_form.subject_heading.label }}</th>
                 <td colspan="3">{{ error_comment_form.subject_heading(size=75) }}</td>

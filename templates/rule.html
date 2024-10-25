@@ -34,6 +34,7 @@
 
 <form method="POST" action="{{ url_for('rule', rule_id=rule.id)}}">
     {{ add_comment_form.hidden_tag() }}
+    {{ add_comment_form.csrf_token }}
     <b>{{ add_comment_form.subject_heading.label }}</b><br>
     {{ add_comment_form.subject_heading(size=50) }}<br>
     <b>{{ add_comment_form.message.label }}</b><br>

@@ -23,13 +23,13 @@ def lists():
         cloze_lists = ClozeList.query.filter_by(student_id=current_user.id).order_by(desc(ClozeList.id)).all()
     else:
         cloze_lists = ClozeList.query.order_by(desc(ClozeList.id)).all()
-    edit_cloze_list_form = EditListForm(csrf_enabled=False)
+    edit_cloze_list_form = EditListForm()
     return render_template('lists.html', lists=lists, edit_list_form=edit_list_form, cloze_lists=cloze_lists,
                            edit_cloze_list_form=edit_cloze_list_form)
 
 @app.route('/add_list_items', methods=['GET', 'POST'])
 def add_list_items():
-    list_form = ManageListForm(csrf_enabled=False)
+    list_form = ManageListForm()
     existing_lists = List.query.all()
     list_form.existing_list.choices = [('', 'Add to an Existing List')] + [(list.id, list.list_name) for list in existing_lists]
     #Process list form:
@@ -83,8 +83,8 @@ def add_list_items():
 @app.route('/error_list/<int:list_id>', methods=['GET', 'POST'])
 def error_list(list_id):
     list = List.query.get(list_id)
-    edit_list_form = EditListForm(csrf_enabled=False)
-    worksheet_form = WorksheetForm(title=list.list_name, csrf_enabled=False)
+    edit_list_form = EditListForm()
+    worksheet_form = WorksheetForm(title=list.list_name)
     if request.method == 'POST' and worksheet_form.validate_on_submit:
         title = request.form.get('title')
         worksheet_type = request.form.get('worksheet_type')
@@ -173,8 +173,8 @@ def error_list(list_id):
 @app.route('/cloze_list/<int:cloze_list_id>', methods=['GET', 'POST'])
 def cloze_list(cloze_list_id):
     list = ClozeList.query.get(cloze_list_id)
-    edit_list_form = EditListForm(csrf_enabled=False)
-    worksheet_form = WorksheetForm(title=list.list_name, csrf_enabled=False)
+    edit_list_form = EditListForm()
+    worksheet_form = WorksheetForm(title=list.list_name)
     if request.method == 'POST' and worksheet_form.validate_on_submit:
         title = request.form.get('title')
         worksheet_type = request.form.get('worksheet_type')
@@ -399,8 +399,7 @@ def edit_cloze_sentence(cloze_list_id, cloze_sentence_id):
     cloze_list = ClozeList.query.get(cloze_list_id)
     target_words = cloze_list.target_words.split('\n')
     edit_cloze_sentence_form = EditClozeSentenceForm(clozed_sentence=cloze_sentence.clozed_sentence,
-                                                     original_sentences=cloze_sentence.original_sentences,
-                                                     csrf_enabled=False)
+                                                     original_sentences=cloze_sentence.original_sentences)
     if request.method == 'POST' and edit_cloze_sentence_form.validate_on_submit():
         if request.form.get('clozed_sentence'):
             clozed_sentence = request.form.get('clozed_sentence')

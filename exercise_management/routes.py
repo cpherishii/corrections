@@ -13,14 +13,14 @@ def exercises():
     all_topics = Topic.query.order_by(Topic.topic_name).all()
     all_lists = List.query.all()
     all_cloze_lists = ClozeList.query.all()
-    error_exercise_form = ErrorExerciseForm(csrf_enabled=False)
+    error_exercise_form = ErrorExerciseForm()
     error_exercise_form.topics.choices = [(topic.id, topic.topic_name) for topic in all_topics]
     error_exercise_form.existing_list.choices = [('', 'Study an existing list')] + \
                                                  [(list.id, list.list_name) for list in all_lists] 
-    cloze_exercise_form = ClozeExerciseForm(csrf_enabled=False)
+    cloze_exercise_form = ClozeExerciseForm()
     cloze_exercise_form.existing_list.choices = [('', 'Study an existing list')] + \
                                                 [(list.id, list.list_name) for list in all_cloze_lists]
-    verb_form_exercise_form = VerbFormExerciseForm(csrf_enabled=False)
+    verb_form_exercise_form = VerbFormExerciseForm()
     
     #Create Exercise Form:
     if request.method == 'POST' and error_exercise_form.validate_on_submit():
@@ -102,7 +102,7 @@ def exercises():
 @app.route('/create_cloze_exercise', methods=['GET', 'POST'])
 def create_cloze_exercise():
     all_cloze_lists = ClozeList.query.all()
-    cloze_exercise_form = ClozeExerciseForm(csrf_enabled=False)
+    cloze_exercise_form = ClozeExerciseForm()
     cloze_exercise_form.existing_list.choices = [('', 'Study an existing list')] + \
                                                 [(list.id, list.list_name) for list in all_cloze_lists]
     #Cloze Exercise Form:

@@ -6,6 +6,7 @@
 
 <form method="POST" action="{{ url_for('display_by_topic') }}" id="selectTopicForm">
     {{ select_topic_form.hidden_tag() }}
+    {{ select_topic_form.csrf_token }}
     {{ select_topic_form.selected_topic.label }}
     {{ select_topic_form.selected_topic(onchange="submitForm()") }}
 </form>

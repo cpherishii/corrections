@@ -69,6 +69,7 @@
     <form method="POST" action="{{ url_for('edit_cloze_sentence', cloze_list_id=cloze_list.id, cloze_sentence_id=cloze_sentence.id) }}" 
                         onsubmit="return confirmSentenceEdit();" style="background-color:lightgray">                
         {{ edit_cloze_sentence_form.hidden_tag() }}
+        {{ edit_cloze_sentence_form.csrf_token }}
             <tr>
                 <th>{{ edit_cloze_sentence_form.clozed_sentence.label }}</th>
                 <td>{{ edit_cloze_sentence_form.clozed_sentence(size=75) }}</td>                

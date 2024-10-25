@@ -9,6 +9,7 @@
 
 <form class="topic-form" id="add-topic-form" method="POST", action="{{ url_for('add_topic') }}" style="display:none;">
     {{ add_topic_form.hidden_tag() }}
+    {{ add_topic_form.csrf_token }}
     {{ add_topic_form.topic_name.label }}
     {{ add_topic_form.topic_name(size=50) }}
     {{ add_topic_form.submit(value='New Topic Name') }}
@@ -25,6 +26,7 @@
         <form class="topic-form" id="form-cell-{{ topic.id }}" method="POST" style="display:none;"
         action="{{ url_for('edit_topic', topic_id=topic.id) }}" onsubmit="return confirmTopicEdit();">
             {{ edit_topic_form.hidden_tag() }}
+            {{ edit_topic_form.csrf_token }}
             {{ edit_topic_form.topic_name.label }}
             {{ edit_topic_form.topic_name(value=topic.topic_name, size=50) }}
             {{ edit_topic_form.submit() }}

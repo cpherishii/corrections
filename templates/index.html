@@ -21,6 +21,7 @@
     </tr>
     <form id="addForm" method="POST" action="{{ url_for('index') }}">
             {{ add_form.hidden_tag() }}
+            {{ add_form.csrf_token }}
             <tr>
                 <th>{{ add_form.error.label }}</th>
                 <td colspan="3">{{ add_form.error(size=75) }}</td>    
@@ -69,11 +70,13 @@
 <div class="sticky-div">
     <form class="select-topic-form" method="POST" action="{{ url_for('index') }}" id="selectTopicForm">
         {{ select_topic_form.hidden_tag() }}
+        {{ select_topic_form.csrf_token }}
         {{ select_topic_form.selected_topic(onchange="submitForm()") }}
     </form>
 
     <form class="manage-form" method="POST" action="{{ url_for('add_list_items') }}" id="manageListForm">
         {{ list_form.hidden_tag() }}
+        {{ list_form.csrf_token }}
         <span>
             {{ list_form.existing_list() }}
         </span>

@@ -10,6 +10,7 @@
 
 <form action="{{ url_for('register_teacher') }}" method="POST">
     {{ registration_form.hidden_tag() }}
+    {{ registration_form.csrf_token }}
     <p>
         <b>{{ registration_form.username.label }}</b><br>
         {{ registration_form.username(size=32) }}<br>

@@ -11,7 +11,7 @@ from forms import LoginForm, RegistrationForm
 def register_teacher():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    registration_form = RegistrationForm(csrf_enabled=False)
+    registration_form = RegistrationForm()
     if request.method == 'POST' and registration_form.validate_on_submit():
         teacher = Teacher(username=registration_form.username.data, email=registration_form.email.data)
         teacher.set_password(registration_form.password.data)
@@ -29,7 +29,7 @@ def register_teacher():
 def register_student():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    registration_form = RegistrationForm(csrf_enabled=False)
+    registration_form = RegistrationForm()
     if request.method == 'POST' and registration_form.validate_on_submit():
         student = Student(username=registration_form.username.data, email=registration_form.email.data)
         student.set_password(registration_form.password.data)
@@ -47,7 +47,7 @@ def register_student():
 def login_teacher():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    login_form = LoginForm(csrf_enabled=False)
+    login_form = LoginForm()
     if request.method == 'POST' and login_form.validate_on_submit():
         user = Teacher.query.filter_by(email=login_form.email.data).first()
         if user and user.check_password(login_form.password.data):
@@ -63,7 +63,7 @@ def login_teacher():
 def login_student():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    login_form = LoginForm(csrf_enabled=False)
+    login_form = LoginForm()
     if request.method == 'POST' and login_form.validate_on_submit():
         user = Student.query.filter_by(email=login_form.email.data).first()
         if user and user.check_password(login_form.password.data):

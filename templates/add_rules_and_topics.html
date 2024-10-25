@@ -59,7 +59,8 @@
     </tr>
     <form method="POST" action="{{ url_for('add_rules_and_topics', error_id=error.id) }}" 
                         style="background-color:lightgray">                
-        {{ add_rules_and_topics_form.hidden_tag() }}                
+        {{ add_rules_and_topics_form.hidden_tag() }}
+        {{ add_rules_and_topics_form.csrf_token }}                
             <tr>
                 <th>Add Topics:</th>
                 <td>{{ add_rules_and_topics_form.topic1(class="select2-field") }}</td>   

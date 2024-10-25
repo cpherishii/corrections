@@ -4,6 +4,7 @@
 <h1>Log in:</h1>
 <form action="{{ url_for('login_student') }}" method="POST">
     {{ login_form.hidden_tag() }}
+    {{ login_form.csrf_token }}
     <p>
         <b>{{ login_form.email.label }}</b><br>
         {{ login_form.email(size=32) }}<br>

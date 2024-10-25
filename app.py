@@ -5,6 +5,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy import desc
 from extensions import db
 from flask_session import Session
+from flask_wtf.csrf import CSRFProtect
 import os
 import shutil
 import atexit
@@ -15,6 +16,9 @@ app.config['SECRET_KEY'] = 'golunculus'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///errors.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+
+csrf = CSRFProtect(app)
+
 SESSION_FILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'flask_session')
 app.config['SESSION_FILE_DIR'] = SESSION_FILE_DIR
 if not os.path.exists(SESSION_FILE_DIR):
@@ -110,16 +114,16 @@ def index():
     all_topics = Topic.query.order_by(Topic.topic_name).all()
     all_rules = Rule.query.order_by(Rule.rule_name).all()
     topic_select_options = [('', 'Recent')] + [(topic.id, topic.topic_name) for topic in all_topics]
-    select_topic_form = SelectTopicForm(csrf_enabled=False)
+    select_topic_form = SelectTopicForm()
     select_topic_form.selected_topic.choices = topic_select_options
     
-    list_form = ManageListForm(csrf_enabled=False)
+    list_form = ManageListForm()
     existing_lists = List.query.all()
     list_form.existing_list.choices = [('', 'Add to an Existing List')] + [(list.id, list.list_name) for list in list(reversed(existing_lists))]
     
     topic_tags = [('', 'Select a Topic (optional)')] + [(topic.id, topic.topic_name) for topic in all_topics]
     rule_tags = [('', 'Select a Rule (optional)')] + [(rule.id, rule.rule_name) for rule in all_rules]
-    add_form = AddForm(csrf_enabled=False)
+    add_form = AddForm()
     add_form.topic1.choices = topic_tags
     add_form.topic2.choices = topic_tags
     add_form.topic3.choices = topic_tags
@@ -236,8 +240,7 @@ def edit(error_id):
     rule_tags = [('', 'Select a Rule (optional)')] + [(rule.id, rule.rule_name) for rule in all_rules]
     
     edit_form = EditForm(error=error.incorrect_sentence,
-                         correction=corrections,
-                         csrf_enabled=False)
+                         correction=corrections)
     #Set choices for the form fields:
     edit_form.topic1.choices = topic_tags
     edit_form.topic2.choices = topic_tags
@@ -308,7 +311,7 @@ def edit(error_id):
 @app.route('/error_comment/<int:error_id>', methods=['GET', 'POST'])
 def error_comment(error_id):
     error = Error.query.filter_by(id=error_id).first()
-    error_comment_form = AddCommentForm(csrf_enabled=False)
+    error_comment_form = AddCommentForm()
     
     if request.method == 'POST' and error_comment_form.validate_on_submit():
         if error_comment_form.subject_heading.data:
@@ -354,7 +357,7 @@ def add_rules_and_topics(error_id):
     all_rules = Rule.query.order_by(Rule.rule_name).all()
     rule_tags = [('', 'Select a Rule (optional)')] + [(rule.id, rule.rule_name) for rule in all_rules]    
     topic_tags = [('', 'Select a Topic (optional)')] + [(topic.id, topic.topic_name) for topic in all_topics]
-    add_rules_and_topics_form = AddRulesAndTopicsForm(csrf_enabled=False)
+    add_rules_and_topics_form = AddRulesAndTopicsForm()
     add_rules_and_topics_form.topic1.choices = topic_tags
     add_rules_and_topics_form.topic2.choices = topic_tags
     add_rules_and_topics_form.topic3.choices = topic_tags
@@ -428,12 +431,10 @@ def add_rules_and_topics(error_id):
 def edit_rule(rule_id):
     rule = Rule.query.get_or_404(rule_id)
     rule_text = rule.rule_text
-    rule_topics = [rule_topic.topic.id for rule_topic in rule.rule_topics]
     all_topics = Topic.query.order_by(Topic.topic_name).all()
     topic_tags = [('', 'Select a Topic (optional)')] + [(topic.id, topic.topic_name) for topic in all_topics]
     edit_rule_form = EditRuleForm(rule_name=rule.rule_name,
-                                  rule_text=rule_text,
-                                  csfr_enabled=False)
+                                  rule_text=rule_text)
     edit_rule_form.rule_topic1.choices = topic_tags
     edit_rule_form.rule_topic2.choices = topic_tags
     edit_rule_form.rule_topic3.choices = topic_tags    
@@ -551,7 +552,7 @@ def display_by_topic():
     errors = db.session.query(Error).join(ErrorTopic).options(joinedload(Error.corrections))\
                         .order_by(desc(Error.entered)).limit(20).all()
     topics = Topic.query.order_by(Topic.topic_name).all()
-    select_topic_form = SelectTopicForm(csrf_enabled=False)
+    select_topic_form = SelectTopicForm()
     select_topic_form.selected_topic.choices = [('', 'Recent')] + [(topic.id, topic.topic_name) for topic in topics]
     if request.method == 'POST' and select_topic_form.validate():
         topic_id = select_topic_form.selected_topic.data
@@ -601,7 +602,7 @@ def edit_topic(topic_id):
 def rules():
     all_topics = Topic.query.order_by(Topic.topic_name).all()
     topic_select_options = [('', 'Recent')] + [(topic.id, topic.topic_name) for topic in all_topics]
-    select_topic_form = SelectTopicForm(csrf_enabled=False)
+    select_topic_form = SelectTopicForm()
     select_topic_form.selected_topic.choices = topic_select_options
     topic = None
     rules = db.session.query(Rule).outerjoin(RuleTopic).order_by(desc(Rule.id)).limit(20).all()
@@ -619,7 +620,7 @@ def rule(rule_id):
     rule_topics = [rule_topic.topic for rule_topic in rule.rule_topics]
     rule_comments = [comment for comment in rule.comments]
     
-    add_comment_form = AddCommentForm(csrf_enabled=False)
+    add_comment_form = AddCommentForm()
     
     if request.method == 'POST' and add_comment_form.validate_on_submit():
         new_comment = Comment(subject_heading=add_comment_form.subject_heading.data,

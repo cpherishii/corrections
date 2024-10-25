@@ -67,7 +67,8 @@
     </tr>
     <form method="POST" action="{{ url_for('edit', error_id=error.id) }}" 
                         onsubmit="return confirmEdit();" style="background-color:lightgray">                
-        {{ edit_form.hidden_tag() }}                
+        {{ edit_form.hidden_tag() }}
+        {{ edit_form.csrf_token }}                
             <tr>
                 <th>{{ edit_form.error.label }}</th>
                 <td colspan="3">{{ edit_form.error(size=75) }}</td>
