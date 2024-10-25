@@ -110,7 +110,9 @@
         <td class="rule-name">
             {% if error.error_rules %}
                 {% for error_rule in error.error_rules %}
-                    {{ error_rule.rule.rule_name }}<br>
+                    <a class="rule-link" href="{{ url_for('rule', rule_id=error_rule.rule.id)}}" target="_blank">
+                        {{ error_rule.rule.rule_name }}
+                    </a><br>
                 {% endfor %}
             {% else %}
                 (none)

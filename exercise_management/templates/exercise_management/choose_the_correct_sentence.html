@@ -99,7 +99,9 @@
         <td class="rule-name">
             {% if error['rules'] %}
                 {% for rule in error['rules'] %}
-                    {{ rule['rule_name'] }}<br>
+                    <a class="rule-link" href="{{ url_for('rule', rule_id=rule['id']) }}" target="_blank">
+                        {{ rule['rule_name'] }}
+                    </a><br>    
                 {% endfor %}
             {% else %}
                 (none)
