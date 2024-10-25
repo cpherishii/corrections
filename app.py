@@ -66,7 +66,7 @@ def unauthorized():
 from models import *
 from errors import add_error, edit_error, add_rules_and_topics_handler
 from forms import *
-from parse import parse_text, explain_pos_tag, get_word_forms
+from parse import get_word_forms
 
 from auth import auth as auth_blueprint
 from list_management import list_management as list_management_blueprint
@@ -644,10 +644,14 @@ def rule(rule_id):
 def parse_sentence(error_id):
     error = Error.query.get(error_id)
     if error:
+        import spacy
+        nlp = spacy.load('en_core_web_sm')
+
         correct_sentence = [correction.correct_sentence for correction in error.corrections][0]
-        parsed_sentence = [token for token in parse_text(correct_sentence) if not token.is_punct]
-        pos_explanations = [explain_pos_tag(token.pos_) for token in parsed_sentence if not token.is_punct]
-        tag_explanations = [explain_pos_tag(token.tag_) for token in parsed_sentence if not token.is_punct]
+        parsed = nlp(correct_sentence)
+        parsed_sentence = [token for token in parsed if not token.is_punct]
+        pos_explanations = [spacy.explain(token.pos_) for token in parsed_sentence if not token.is_punct]
+        tag_explanations = [spacy.explain(token.tag_) for token in parsed_sentence if not token.is_punct]
         word_forms = get_word_forms(parsed_sentence)
         return render_template('parse_sentence.html', error=error, correct_sentence=correct_sentence, parsed_sentence=parsed_sentence,
                                pos_explanations=pos_explanations, tag_explanations=tag_explanations, word_forms=word_forms)

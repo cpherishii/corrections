@@ -1,14 +1,8 @@
-import spacy
 import pyinflect
 import random
 from models import Error, Correction
 
-nlp = spacy.load('en_core_web_sm')
 
-
-def parse_text(text):
-    parsed = nlp(text)
-    return parsed
 
 glossary = {
     # Universal POS Tags
@@ -93,8 +87,6 @@ glossary = {
     "HVS": 'forms of "have"',
     "_SP": "whitespace"}
 
-def explain_pos_tag(tag):
-    return spacy.explain(tag)
 
 #def explain_pos_tag(tag):
 #    if tag in glossary:
@@ -135,6 +127,9 @@ def get_word_forms(parsed_sentence):
 
 
 def get_verb_form_list(verb_forms, num_sentences):
+    import spacy
+    nlp = spacy.load('en_core_web_sm')
+    
     all_errors = Error.query.all()
     num_errors = len(all_errors)
     seen_sentences = []
@@ -150,7 +145,7 @@ def get_verb_form_list(verb_forms, num_sentences):
         random_error = Error.query.filter_by(id = random.choice(range(num_errors))).first()
         if random_error:
             sentence = random_error.corrections[0].correct_sentence
-            parsed_sentence = parse_text(sentence)
+            parsed_sentence = nlp(sentence)
             word_list = []
             if sentence not in seen_sentences:
                 for token in parsed_sentence:
