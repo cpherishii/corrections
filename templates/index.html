@@ -10,11 +10,13 @@
         <td colspan="2"><h2>Add New Sentence:</h2></td>
         <td>
             <form style="display:inline" onsubmit="return false;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button onclick="showNewTopicForm()">Define New Topic</button>
             </form>
         </td>
         <td>
             <form style="display:inline" onsubmit="return false;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button onclick="showNewRuleForm()">Define New Rule</button>
             </form>
         </td>

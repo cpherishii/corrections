@@ -61,6 +61,7 @@
 
 <form id="next" onsubmit="storeValues();" method="POST" action="{{ url_for('exercise', exercise_id=exercise_id, list_id=list.id, index=index )}}">
     <input type="hidden" id="result" name="result" value="">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <button id="next-button" type="submit" name="action" value="save">Next</button><br>
     <span style="color:white;">(or press >)</span>
 </form>
@@ -109,6 +110,7 @@
         <td></td>
         <td>
             <form onsubmit="storeValues();" method="POST" action="{{ url_for('exercise', exercise_id=exercise_id, list_id=list.id, index=index )}}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="exercise-manage-button" onclick="return confirmItemRemoval();" type="submit" name="action" value="delete">Don't show me this sentence again</button>
             </form>
         </td>

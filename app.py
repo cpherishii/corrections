@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user, login_required
+from dotenv import load_dotenv
 from sqlalchemy.orm import joinedload
 from sqlalchemy import desc
 from extensions import db
@@ -11,8 +12,11 @@ import shutil
 import atexit
 from functools import wraps
 
+load_dotenv()
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'golunculus'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+print("SECRET_KEY is set:", app.config['SECRET_KEY'] is not None)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///errors.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
