@@ -167,6 +167,9 @@ bin/
 share/
 __pycache__/
 
+#Ignore session and migration files
+flask_session/
+migrations/
 
 #Jupyter Notebook files
 *.ipynb
