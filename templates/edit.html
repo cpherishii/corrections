@@ -71,11 +71,11 @@
         {{ edit_form.csrf_token }}                
             <tr>
                 <th>{{ edit_form.error.label }}</th>
-                <td colspan="3">{{ edit_form.error(size=75) }}</td>
+                <td colspan="3">{{ edit_form.error(class='incorrect-sentence-field') }}</td>
             </tr>
             <tr>
                 <th>{{ edit_form.correction.label }}</th>
-                <td colspan="3">{{ edit_form.correction(rows=3, cols=75) }}</td>
+                <td colspan="3">{{ edit_form.correction(class='correct-sentence-field') }}</td>
             </tr>
             <tr>
                 <th>Add Topics:</th>
@@ -90,15 +90,15 @@
             </tr>
             <tr id="addNewTopicForm" style="display:none;">
                 <th>{{ edit_form.new_topic_name.label }}</th>
-                <td colspan="2">{{ edit_form.new_topic_name(size=75) }}</td>
+                <td colspan="2">{{ edit_form.new_topic_name(class='topic-name-field') }}</td>
             </tr>
             <tr id="addNewRuleForm" style="display:none;">
                 <th>{{ edit_form.new_rule_name.label }}</th>
-                <td colspan="3">{{ edit_form.new_rule_name(size=75) }}</td>
+                <td colspan="3">{{ edit_form.new_rule_name(class='rule-name-field') }}</td>
             </tr>
             <tr id="addNewRuleFormText" style="display:none;">
                 <th>{{ edit_form.new_rule_text.label }}</th>
-                <td colspan="3">{{ edit_form.new_rule_text(rows=3, cols=75, id='rule_text') }}</td>
+                <td colspan="3">{{ edit_form.new_rule_text(class='rule-text-field', id='rule_text') }}</td>
             </tr>
             <tr id="addNewRuleFormTopics" style="display:none;">
                 <th>Add Topics:</th>

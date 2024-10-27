@@ -36,11 +36,11 @@
         {{ edit_rule_form.csrf_token }}                
             <tr>
                 <th>{{ edit_rule_form.rule_name.label }}</th>
-                <td colspan="3">{{ edit_rule_form.rule_name(size=75) }}</td>
+                <td colspan="3">{{ edit_rule_form.rule_name(class='rule-name-field') }}</td>
             </tr>
             <tr>
                 <th>{{ edit_rule_form.rule_text.label }}</th>
-                <td colspan="3">{{ edit_rule_form.rule_text(rows=6, cols=100, id='rule_text') }}</td>
+                <td colspan="3">{{ edit_rule_form.rule_text(class='rule-text-field', id='rule_text') }}</td>
             </tr>
             <tr>
                 <th>Add Topics:</th>
