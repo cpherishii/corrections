@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Create an Exercise{% endblock %}
 
+{% block head %}
+    <script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 
 
@@ -138,7 +142,5 @@
         </form>
     </table>
 </div>
-
-<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
 
 {% endblock %}

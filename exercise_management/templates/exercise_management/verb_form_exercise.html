@@ -7,6 +7,9 @@
             background-color: darkgray;
         }
     </style>
+
+    <script src="{{ url_for('static', filename='js/exercises.js') }}" defer></script>
+
 {% endblock %}
 
 {% block content %}
@@ -125,7 +128,6 @@
     var numVerbForms = {{ num_verb_forms }}
 </script>
 
-<script src="{{ url_for('static', filename='js/exercises.js') }}"></script>
 
 
 {% endblock %}
