@@ -38,24 +38,28 @@ if (exerciseOptions) {
     window.onload = updateExerciseImage;
 }
 
+function displayLoadingMessage(loadingMessage) {
+    document.getElementById(loadingMessage).style.display = 'block';
+}
+
 const errorExerciseForm = document.getElementById('errorExerciseForm');
 if (errorExerciseForm) {
     document.getElementById('errorExerciseForm').addEventListener('submit', function() {
-        document.getElementById('loadingMessage1').style.display = 'block';
+        displayLoadingMessage('loadingMessage1');
     });
 }
 
 const clozeExerciseForm = document.getElementById('clozeExerciseForm');
 if (clozeExerciseForm) {
     document.getElementById('clozeExerciseForm').addEventListener('submit', function() {
-        document.getElementById('loadingMessage2').style.display = 'block';
+        displayLoadingMessage('loadingMessage2');
     });
 }
 
 const verbFormExerciseForm = document.getElementById('verbFormExerciseForm');
 if (verbFormExerciseForm) {
     document.getElementById('verbFormExerciseForm').addEventListener('submit', function() {
-        document.getElementById('loadingMessage3').style.display = 'block';
+        displayLoadingMessage('loadingMessage3');
     });
 }
 
