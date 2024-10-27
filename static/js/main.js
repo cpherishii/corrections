@@ -88,15 +88,30 @@ function submitForm() {
     document.getElementById('selectTopicForm').submit();
 }
 
-function submitListForm() {
+function submitCheckboxForm(formId) {
     var selectedErrors = [];
     var checkboxes = document.querySelectorAll('.error-checkbox:checked');
     checkboxes.forEach(function(checkbox) {
         selectedErrors.push(checkbox.value);
     });
     console.log('Selected Errors: ' + selectedErrors);
-    document.getElementById('selected-errors').value = selectedErrors.join(',');
-    document.getElementById('manageListForm').submit();
+    if (formId === 'manageListForm') {
+        document.getElementById('selected-errors').value = selectedErrors.join(',');
+    } else if (formId === 'addRuleForm') {
+        document.getElementById('selected-rule-errors').value = selectedErrors.join(',');
+    }
+    document.getElementById(formId).submit();
+}
+
+function submitAddRuleForm() {
+    var selectedErrors = [];
+var checkboxes = document.querySelectorAll('.error-checkbox:checked');
+checkboxes.forEach(function(checkbox) {
+    selectedErrors.push(checkbox.value);
+});
+console.log('Selected Errors: ' + selectedErrors);
+document.getElementById('selected-errors').value = selectedErrors.join(',');
+document.getElementById('manageListForm').submit();
 }
 
 // JavaScript to handle tab key press for indentation in textarea

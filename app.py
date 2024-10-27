@@ -137,6 +137,9 @@ def index():
     add_form.rule_topic1.choices = topic_tags
     add_form.rule_topic2.choices = topic_tags
     add_form.rule_topic3.choices = topic_tags
+    
+    add_rule_form = AddRulesAndTopicsForm()
+    add_rule_form.rule1.choices = rule_tags
                
     #Process add form:
     if request.method == 'POST' and add_form.validate_on_submit():
@@ -226,7 +229,7 @@ def index():
             errors = db.session.query(Error).outerjoin(ErrorTopic).options(joinedload(Error.corrections))\
                     .filter(ErrorTopic.topic_id==topic.id).order_by(desc(Error.id)).all()
     
-    return render_template('index.html', errors=errors, add_form=add_form, 
+    return render_template('index.html', errors=errors, add_form=add_form, add_rule_form=add_rule_form,
                            #add_form=add_form 
                            select_topic_form=select_topic_form, list_form=list_form)
 
@@ -310,6 +313,29 @@ def edit(error_id):
                    new_topic_name, new_rule_name, new_rule_text, new_rule_topic_ids)
         return redirect(url_for('edit', error_id=error_id))
     return render_template('edit.html', edit_form=edit_form, error=error)
+
+
+@app.route('/add_rule_to_errors', methods=['GET', 'POST'])
+def add_rule_to_errors():
+    add_rule_form = AddRulesAndTopicsForm()
+    
+    selected_error_ids = request.form.get('selected_rule_errors').split(',')
+    print(selected_error_ids)
+    
+    rule_to_add = Rule.query.filter_by(id=request.form.get('rule1')).first()
+    
+    for error_id in selected_error_ids:
+        new_error_rule = ErrorRule(error_id = error_id,
+                                   rule_id = rule_to_add.id)
+        db.session.add(new_error_rule)
+        
+    try:
+        db.session.commit()
+        flash('Error Rule added successfully.', category='success')
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error committing to the database: {e}")
+    return redirect(url_for('index'))
 
 
 @app.route('/error_comment/<int:error_id>', methods=['GET', 'POST'])

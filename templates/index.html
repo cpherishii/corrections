@@ -87,7 +87,19 @@
             <input type="text" id="new-list-name" name="new_list_name" size="20">
         </span>
         <input type="hidden" id="selected-errors" name="selected_errors">
-        <button type="button" onclick="submitListForm();">Add to list</button>
+        <button type="button" onclick="submitCheckboxForm('manageListForm');">Add to list</button>
+    </form><br>
+    <form class="manage-form" method="POST" action="{{ url_for('add_rule_to_errors') }}" id="addRuleForm">
+        {{ add_rule_form.hidden_tag() }}
+        {{ add_rule_form.csrf_token }}
+        <span>
+            {{add_rule_form.rule1.label }}
+        </span>
+        <span>
+            {{ add_rule_form.rule1(class="select2-field") }}
+        </span>
+        <input type="hidden" id="selected-rule-errors" name="selected_rule_errors">
+        <button type="button" onclick="submitCheckboxForm('addRuleForm');">Add Rule to Selected</button>
     </form>
 
 </div>
